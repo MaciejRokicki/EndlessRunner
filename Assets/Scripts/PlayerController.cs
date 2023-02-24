@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private WorldGenerator mapGenerator;
+
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -9,12 +12,27 @@ public class PlayerController : MonoBehaviour
     private Camera playerCamera;
 
     [SerializeField]
-    private float playerSpeed = 5.0f;
+    private float playerSpeed;
+    public float PlayerSpeed 
+    { 
+        get 
+        { 
+            return playerSpeed; 
+        } 
+        set 
+        { 
+            playerSpeed = value; 
+            timer = 1 / playerSpeed;
+        } 
+    }
     [SerializeField]
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
     [SerializeField]
     private float cameraSpeed = 250.0f;
+
+    private float timer = 0.0f;
+    private float currentTimer = 0.0f;
 
     private void Start()
     {
@@ -25,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         RotateCharacter();
         MoveCharacter();
+        GenerateMap();
     }
 
     private void RotateCharacter()
@@ -56,5 +75,20 @@ public class PlayerController : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    private void GenerateMap()
+    {
+        if(currentTimer > timer)
+        {
+            if (mapGenerator.z - transform.position.z < mapGenerator.startSize)
+            {
+                mapGenerator.GenerateRow();
+            }
+
+            currentTimer = 0.0f;
+        }
+
+        currentTimer += Time.deltaTime;
     }
 }
