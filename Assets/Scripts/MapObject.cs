@@ -6,10 +6,7 @@ public class MapObject : MonoBehaviour
     private float baseHeight;
     public float BaseHeight
     {
-        get
-        {
-            return baseHeight;
-        }
+        get { return baseHeight; }
         set
         {
             baseHeight = value;
@@ -23,7 +20,7 @@ public class MapObject : MonoBehaviour
     {
         if(transform.position.y < baseHeight)
         {
-            transform.position = transform.position + new Vector3(0.0f, step * Time.deltaTime * Random.Range(0.1f, 0.75f), 0.0f);
+            transform.position = transform.position + new Vector3(0.0f, step * Time.deltaTime * Random.Range(0.5f, 1.5f), 0.0f);
         }
     }
 }

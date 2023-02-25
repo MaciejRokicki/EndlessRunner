@@ -1,51 +1,125 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class WorldGenerator : MonoBehaviour
 {
-    public int startSize = 25;
-    [SerializeField]
-    private int rowSize = 5;
-    [SerializeField]
-    private float height = 1.0f;
-    [SerializeField]
-    private float heightOffset = 5.0f;
+    private static WorldGenerator instance;
+    public static WorldGenerator Instance
+    { 
+        get { return instance; } 
+    }
+
+    private GameManager gameManager;
+
+    private PlayerController playerController;
+    public PlayerController PlayerController
+    { 
+        get { return playerController; }
+        set { playerController = value; }
+    }
+
+    public int StartSize = 25;
+    public int GroundWidth = 5;
+    public float Height = 1.0f;
+    public float HeightOffset = 5.0f;
     [HideInInspector]
-    public float maxGroundHeight = 0.0f;
-    public int z = 0;
+    public float MaxGroundHeight = 0.0f;
+    public int Z = 0;
+
+    public IObjectPool<MapRow> MapRowPool;
+    public IObjectPool<MapObject> MapObjectPool;
 
     [SerializeField]
-    private GameObject world;
-
+    private GameObject groundGameObject;
     [SerializeField]
-    private GameObject ground;
+    private GameObject mapObjectGameObject;
+    [SerializeField]
+    private GameObject rowPrefab;
+    [SerializeField]
+    private GameObject groundPrefab;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
-        for(int i = 0; i < startSize; i++)
+        gameManager = GameManager.Instance;
+
+        playerController = gameManager.PlayerController;
+
+        MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
+        MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
+
+        for(int i = 0; i < StartSize; i++)
         {
-            GenerateRow();
+            GenerateRow(false);
         }
 
-        z = startSize;
+        Z = StartSize;
     }
 
-    public void GenerateRow()
+    public void GenerateRow(bool animate = true)
     {
-        z++;
+        MapRow mapRow = MapRowPool.Get();
 
-        for (int x = 0; x < rowSize; x++)
-        {
-            float y = height * Mathf.PerlinNoise(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+        mapRow.transform.position = new Vector3(0.0f, 0.0f, Z);
+        mapRow.Initialize(animate);
 
-            if(maxGroundHeight < y)
-            {
-                maxGroundHeight = y;
-            }
+        groundGameObject.GetComponent<BoxCollider>().size = new Vector3(GroundWidth, 1.0f, Z);
+        groundGameObject.GetComponent<BoxCollider>().center = new Vector3(2.0f, MaxGroundHeight * 0.7f, Z / 2.0f);
+        Z++;
+    }
 
-            Instantiate(ground, new Vector3(x, y - heightOffset, z), Quaternion.identity, world.transform).GetComponent<MapObject>().BaseHeight = y;
+    private MapRow OnCreateMapRow()
+    {
+        MapRow mapRow = Instantiate(rowPrefab, new Vector3(0.0f, 0.0f, Z), Quaternion.identity, groundGameObject.transform).GetComponent<MapRow>();
 
-            world.GetComponent<BoxCollider>().size = new Vector3(rowSize, 1.0f, z);
-            world.GetComponent<BoxCollider>().center = new Vector3(2.0f, maxGroundHeight * 0.7f, z / 2.0f);
-        }
+        return mapRow;
+    }
+
+    private void OnGetMapRow(MapRow mapRow)
+    {
+        mapRow.gameObject.SetActive(true);
+    }
+
+    private void OnReturnedMapRow(MapRow mapRow)
+    {
+        mapRow.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyMapRow(MapRow mapRow)
+    {
+        Destroy(mapRow);
+    }
+
+    private MapObject OnCreateMapObject()
+    {
+        MapObject mapRow = Instantiate(groundPrefab, Vector3.zero, Quaternion.identity, mapObjectGameObject.transform).GetComponent<MapObject>();
+
+        return mapRow;
+    }
+
+    private void OnGetMapObject(MapObject mapObject)
+    {
+        mapObject.gameObject.SetActive(true);
+    }
+
+    private void OnReturnedMapObject(MapObject mapObject)
+    {
+        mapObject.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyMapObject(MapObject mapObject)
+    {
+        Destroy(mapObject);
     }
 }

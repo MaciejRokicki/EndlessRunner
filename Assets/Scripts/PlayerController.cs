@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private WorldGenerator mapGenerator;
+    private WorldGenerator worldGenerator;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -15,10 +14,7 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed;
     public float PlayerSpeed 
     { 
-        get 
-        { 
-            return playerSpeed; 
-        } 
+        get { return playerSpeed; } 
         set 
         { 
             playerSpeed = value; 
@@ -37,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        worldGenerator = WorldGenerator.Instance;
     }
 
     void Update()
@@ -81,9 +79,9 @@ public class PlayerController : MonoBehaviour
     {
         if(currentTimer > timer)
         {
-            if (mapGenerator.z - transform.position.z < mapGenerator.startSize)
+            if (worldGenerator.Z - transform.position.z < worldGenerator.StartSize)
             {
-                mapGenerator.GenerateRow();
+                worldGenerator.GenerateRow();
             }
 
             currentTimer = 0.0f;
