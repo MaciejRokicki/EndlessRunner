@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -28,15 +29,29 @@ public class WorldGenerator : MonoBehaviour
 
     public IObjectPool<MapRow> MapRowPool;
     public IObjectPool<MapObject> MapObjectPool;
+    public IObjectPool<MapObject> StructureMapObjectPool;
 
     [SerializeField]
     private GameObject groundGameObject;
     [SerializeField]
-    private GameObject mapObjectGameObject;
+    private GameObject mapGameObject;
+    [SerializeField]
+    private GameObject structureMapGameObject;
     [SerializeField]
     private GameObject rowPrefab;
     [SerializeField]
     private GameObject groundPrefab;
+    [SerializeField]
+    private GameObject structurePrefab;
+
+    [SerializeField]
+    private List<MapStructure> mapStructures = new List<MapStructure>();
+    private int structureOffset;
+    public int MinStructureOffset = 10;
+    private int lastStructureZ = 0;
+
+    [SerializeField]
+    private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
 
     private void Awake()
     {
@@ -54,10 +69,11 @@ public class WorldGenerator : MonoBehaviour
     {
         gameManager = GameManager.Instance;
 
-        playerController = gameManager.PlayerController;
-
         MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
         MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
+        StructureMapObjectPool = new ObjectPool<MapObject>(OnCreateStructureMapObject, OnGetStructureMapObject, OnReturnedStructureMapObject, OnDestroyStructureMapObject);
+
+        structureOffset = MinStructureOffset;
 
         for(int i = 0; i < StartSize; i++)
         {
@@ -69,6 +85,20 @@ public class WorldGenerator : MonoBehaviour
 
     public void GenerateRow(bool animate = true)
     {
+        if(Z > StartSize && Z - lastStructureZ > structureOffset)
+        {
+            int chance = Random.Range(0, 100);
+
+            if(chance > 80)
+            {
+                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, 2, mapStructures[Random.Range(0, mapStructures.Count)]);
+                structuresToGenerate.Add(structureToGenerate);
+
+                structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
+                lastStructureZ = Z;
+            }
+        }
+
         MapRow mapRow = MapRowPool.Get();
 
         mapRow.transform.position = new Vector3(0.0f, 0.0f, Z);
@@ -76,7 +106,13 @@ public class WorldGenerator : MonoBehaviour
 
         groundGameObject.GetComponent<BoxCollider>().size = new Vector3(GroundWidth, 1.0f, Z);
         groundGameObject.GetComponent<BoxCollider>().center = new Vector3(2.0f, MaxGroundHeight * 0.7f, Z / 2.0f);
+
         Z++;
+
+        for (int i = 0; i < structuresToGenerate.Count; i++)
+        {
+            structuresToGenerate[i].Generate();
+        }
     }
 
     private MapRow OnCreateMapRow()
@@ -103,7 +139,7 @@ public class WorldGenerator : MonoBehaviour
 
     private MapObject OnCreateMapObject()
     {
-        MapObject mapRow = Instantiate(groundPrefab, Vector3.zero, Quaternion.identity, mapObjectGameObject.transform).GetComponent<MapObject>();
+        MapObject mapRow = Instantiate(groundPrefab, Vector3.zero, Quaternion.identity, mapGameObject.transform).GetComponent<MapObject>();
 
         return mapRow;
     }
@@ -121,5 +157,32 @@ public class WorldGenerator : MonoBehaviour
     private void OnDestroyMapObject(MapObject mapObject)
     {
         Destroy(mapObject);
+    }
+
+    private MapObject OnCreateStructureMapObject()  
+    {
+        MapObject mapRow = Instantiate(structurePrefab, Vector3.zero, Quaternion.identity, structureMapGameObject.transform).GetComponent<MapObject>();
+
+        return mapRow;
+    }
+
+    private void OnGetStructureMapObject(MapObject mapObject)
+    {
+        mapObject.gameObject.SetActive(true);
+    }
+
+    private void OnReturnedStructureMapObject(MapObject mapObject)
+    {
+        mapObject.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyStructureMapObject(MapObject mapObject)
+    {
+        Destroy(mapObject);
+    }
+
+    public void RemoveStructureToGenerate(StructureToGenerate structureToGenerate)
+    {
+        structuresToGenerate.Remove(structureToGenerate);
     }
 }
