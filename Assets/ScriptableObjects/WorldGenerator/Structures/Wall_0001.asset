@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
-  m_Name: Wall_001
+  m_Name: Wall_0001
   m_EditorClassIdentifier: 
+  structure: {fileID: 914153043730483711, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
   Length: 0
   StructureObjects:
-  - Position: {x: -2, y: 0, z: 0}
-    Object: {fileID: 4582984503615000654, guid: af810beee9f2ec34582650f51587ba50, type: 3}
-  - Position: {x: -1, y: 0, z: 0}
-    Object: {fileID: 4582984503615000654, guid: af810beee9f2ec34582650f51587ba50, type: 3}
-  - Position: {x: -2, y: 1, z: 0}
-    Object: {fileID: 4582984503615000654, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+  - {fileID: 7856669334314717032, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
+  - {fileID: 58429341677730402, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
+  - {fileID: 8034559344564217238, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}

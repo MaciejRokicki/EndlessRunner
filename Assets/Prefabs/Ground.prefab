@@ -96,3 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35060df4da85a424f87c7679db34af51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  step: 0
+  ShouldRoundHeightToInt: 0

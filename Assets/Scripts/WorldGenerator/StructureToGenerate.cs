@@ -14,7 +14,7 @@ public class StructureToGenerate
     private int z = 0;
     private int zTmp = 0;
 
-    private List<StructureObject> currentRowObjects;
+    private List<Transform> currentRowObjects;
     private List<MapObject> structureObjects;
 
     public StructureToGenerate(
@@ -23,7 +23,15 @@ public class StructureToGenerate
         MapStructure mapStructure)
     {
         this.worldGenerator = worldGenerator;
-        this.centerPathPosition = centerPathPosition;
+        if(mapStructure.RandomizePosition)
+        {
+            float offset = worldGenerator.GroundWidth - mapStructure.Width;
+            this.centerPathPosition = MathF.Round(UnityEngine.Random.Range(centerPathPosition - offset + 0.5f, offset - 0.5f) * 2.0f, MidpointRounding.AwayFromZero);
+        }
+        else
+        {
+            this.centerPathPosition = centerPathPosition;
+        }
         this.mapStructure = mapStructure;
 
         structureObjects = new List<MapObject>();
@@ -36,17 +44,19 @@ public class StructureToGenerate
         if(z <= mapStructure.Length)
         {
             currentRowObjects = mapStructure.StructureObjects
-                .Where(x => x.Position.z == z)
+                .Where(x => x.position.z == z)
                 .ToList();
 
-            foreach(StructureObject structureObject in currentRowObjects)
+            foreach (Transform structureObject in currentRowObjects)
             {
                 MapObject mapObject = worldGenerator.StructureMapObjectPool.Get();
 
                 structureObjects.Add(mapObject);
 
-                mapObject.transform.position = new Vector3(centerPathPosition + structureObject.Position.x, -4.0f, zTmp + structureObject.Position.z);
-                mapObject.BaseHeight = structureObject.Position.y + 1.0f;
+                mapObject.GetComponent<MeshRenderer>().materials = structureObject.GetComponent<Renderer>().sharedMaterials; 
+                mapObject.transform.position = new Vector3(centerPathPosition + structureObject.position.x, -4.0f, zTmp + structureObject.position.z);
+                mapObject.BaseHeight = structureObject.position.y + 1.0f;
+                mapObject.ShouldRoundHeightToInt = structureObject.GetComponent<MapObject>().ShouldRoundHeightToInt;
             }
 
             z++;
