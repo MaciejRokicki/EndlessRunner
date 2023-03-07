@@ -91,11 +91,12 @@ public class WorldGenerator : MonoBehaviour
 
             if(chance > 80)
             {
-                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, 0, mapStructures[Random.Range(0, mapStructures.Count)]);
+                MapStructure mapStructure = mapStructures[Random.Range(0, mapStructures.Count)];
+                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, 0, mapStructure);
                 structuresToGenerate.Add(structureToGenerate);
 
                 structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
-                lastStructureZ = Z;
+                lastStructureZ = Z + mapStructure.Length;
             }
         }
 
