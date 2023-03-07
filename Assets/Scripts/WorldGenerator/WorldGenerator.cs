@@ -20,12 +20,12 @@ public class WorldGenerator : MonoBehaviour
     }
 
     public int StartSize = 25;
-    public int GroundWidth = 5;
-    public float Height = 1.0f;
+    public Vector2 GroundSize = new Vector2(5.0f, 1.0f);
     public float HeightOffset = 5.0f;
     [HideInInspector]
     public float MaxGroundHeight = 0.0f;
     public int Z = 0;
+    public Vector2 GeneratePosition;
 
     public IObjectPool<MapRow> MapRowPool;
     public IObjectPool<MapObject> MapObjectPool;
@@ -92,7 +92,7 @@ public class WorldGenerator : MonoBehaviour
             if(chance > 80)
             {
                 MapStructure mapStructure = mapStructures[Random.Range(0, mapStructures.Count)];
-                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, 0, mapStructure);
+                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, mapStructure);
                 structuresToGenerate.Add(structureToGenerate);
 
                 structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
@@ -102,11 +102,11 @@ public class WorldGenerator : MonoBehaviour
 
         MapRow mapRow = MapRowPool.Get();
 
-        mapRow.transform.position = new Vector3(0.0f, 0.0f, Z);
+        mapRow.transform.position = new Vector3(GeneratePosition.x, GeneratePosition.y, Z);
         mapRow.Initialize(animate);
 
-        groundGameObject.GetComponent<BoxCollider>().size = new Vector3(GroundWidth, 1.0f, Z);
-        groundGameObject.GetComponent<BoxCollider>().center = new Vector3(2.0f, MaxGroundHeight * 0.7f, Z / 2.0f);
+        groundGameObject.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, Z);
+        groundGameObject.GetComponent<BoxCollider>().center = new Vector3(2.0f, GeneratePosition.y + MaxGroundHeight * 0.7f, Z / 2.0f);
 
         Z++;
 

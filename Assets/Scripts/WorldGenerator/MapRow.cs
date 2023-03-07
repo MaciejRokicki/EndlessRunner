@@ -35,9 +35,9 @@ public class MapRow : MonoBehaviour
 
     public void Initialize(bool animate = true)
     {
-        for (int x = 0; x < worldGenerator.GroundWidth; x++)
+        for (int x = 0; x < worldGenerator.GroundSize.x; x++)
         {
-            float y = worldGenerator.Height * Mathf.PerlinNoise(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+            float y = worldGenerator.GeneratePosition.y + worldGenerator.GroundSize.y * Mathf.PerlinNoise(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
 
             if (worldGenerator.MaxGroundHeight < y)
             {
@@ -45,7 +45,10 @@ public class MapRow : MonoBehaviour
             }
 
             MapObject mapObject = worldGenerator.MapObjectPool.Get();
-            mapObject.transform.position = new Vector3(x, animate ? y - worldGenerator.HeightOffset : y, worldGenerator.Z);
+            mapObject.transform.position = new Vector3(
+                worldGenerator.GeneratePosition.x + x, 
+                worldGenerator.GeneratePosition.y + (animate ? y - worldGenerator.HeightOffset : y), 
+                worldGenerator.Z);
             mapObject.BaseHeight = y;
             mapObjects.Add(mapObject);
         }

@@ -421,6 +421,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5893322}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: GeneratePosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: MinStructureOffset
       value: 10
       objectReference: {fileID: 0}

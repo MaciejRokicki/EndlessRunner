@@ -10,7 +10,7 @@ public class StructureToGenerate
 
     [SerializeField]
     private MapStructure mapStructure;
-    private float structureGroundSpawnPositionX;
+    private Vector3 structureGroundSpawnPosition;
     private int z = 0;
     private int zTmp = 0;
 
@@ -18,19 +18,21 @@ public class StructureToGenerate
     private List<MapObject> structureObjects;
 
     public StructureToGenerate(
-        WorldGenerator worldGenerator, 
-        float structureGroundSpawnPositionX, 
+        WorldGenerator worldGenerator,
         MapStructure mapStructure)
     {
         this.worldGenerator = worldGenerator;
-        if(mapStructure.RandomizePosition)
+        if (mapStructure.RandomizePosition)
         {
-            float offset = worldGenerator.GroundWidth - mapStructure.Width;
-            this.structureGroundSpawnPositionX = Mathf.Floor(UnityEngine.Random.Range(0.0f, offset + 1.0f));
+            float offset = worldGenerator.GroundSize.x - mapStructure.Width;
+            structureGroundSpawnPosition = new Vector3(
+                structureGroundSpawnPosition.x,
+                structureGroundSpawnPosition.y,
+                Mathf.Floor(UnityEngine.Random.Range(0.0f, offset + 1.0f)));
         }
         else
         {
-            this.structureGroundSpawnPositionX = structureGroundSpawnPositionX;
+            structureGroundSpawnPosition = worldGenerator.GeneratePosition;
         }
         this.mapStructure = mapStructure;
 
@@ -41,7 +43,7 @@ public class StructureToGenerate
 
     public void Generate()
     {
-        if(z <= mapStructure.Length)
+        if (z <= mapStructure.Length)
         {
             currentRowObjects = mapStructure.StructureObjects
                 .Where(x => x.position.z == z)
@@ -53,9 +55,12 @@ public class StructureToGenerate
 
                 structureObjects.Add(mapObject);
 
-                mapObject.GetComponent<MeshRenderer>().materials = structureObject.GetComponent<Renderer>().sharedMaterials; 
-                mapObject.transform.position = new Vector3(structureGroundSpawnPositionX + structureObject.position.x, -4.0f, zTmp + structureObject.position.z);
-                mapObject.BaseHeight = structureObject.position.y + 1.0f;
+                mapObject.GetComponent<MeshRenderer>().materials = structureObject.GetComponent<Renderer>().sharedMaterials;
+                mapObject.transform.position = new Vector3(
+                    structureGroundSpawnPosition.x + structureObject.position.x, 
+                    structureGroundSpawnPosition.y -4.0f, 
+                    zTmp + structureObject.position.z);
+                mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1.0f;
                 mapObject.ShouldRoundHeightToInt = structureObject.GetComponent<MapObject>().ShouldRoundHeightToInt;
             }
 
@@ -69,9 +74,9 @@ public class StructureToGenerate
 
     private void CheckPoolRelease()
     {
-        if(structureObjects[structureObjects.Count - 1].transform.position.z < worldGenerator.PlayerController.transform.position.z - 2.0f)
+        if (structureObjects[structureObjects.Count - 1].transform.position.z < worldGenerator.PlayerController.transform.position.z - 2.0f)
         {
-            foreach(MapObject structureObject in structureObjects)
+            foreach (MapObject structureObject in structureObjects)
             {
                 worldGenerator.StructureMapObjectPool.Release(structureObject);
             }

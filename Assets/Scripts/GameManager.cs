@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     {
         worldGenerator = WorldGenerator.Instance;
 
-        playerController = Instantiate(playerPrefab, new Vector3(Mathf.Floor(worldGenerator.GroundWidth / 2.0f), worldGenerator.Height, 1.0f), Quaternion.identity)
+        playerController = Instantiate(playerPrefab, 
+            new Vector3(Mathf.Floor(worldGenerator.GroundSize.x / 2.0f), worldGenerator.GeneratePosition.y + worldGenerator.GroundSize.y, 1.0f), 
+            Quaternion.identity)
             .GetComponent<PlayerController>();
 
         worldGenerator.PlayerController = playerController;
