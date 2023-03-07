@@ -10,7 +10,7 @@ public class StructureToGenerate
 
     [SerializeField]
     private MapStructure mapStructure;
-    private float centerPathPosition;
+    private float structureGroundSpawnPositionX;
     private int z = 0;
     private int zTmp = 0;
 
@@ -19,18 +19,18 @@ public class StructureToGenerate
 
     public StructureToGenerate(
         WorldGenerator worldGenerator, 
-        float centerPathPosition, 
+        float structureGroundSpawnPositionX, 
         MapStructure mapStructure)
     {
         this.worldGenerator = worldGenerator;
         if(mapStructure.RandomizePosition)
         {
             float offset = worldGenerator.GroundWidth - mapStructure.Width;
-            this.centerPathPosition = MathF.Round(UnityEngine.Random.Range(centerPathPosition - offset + 0.5f, offset - 0.5f) * 2.0f, MidpointRounding.AwayFromZero);
+            this.structureGroundSpawnPositionX = Mathf.Floor(UnityEngine.Random.Range(0.0f, offset + 1.0f));
         }
         else
         {
-            this.centerPathPosition = centerPathPosition;
+            this.structureGroundSpawnPositionX = structureGroundSpawnPositionX;
         }
         this.mapStructure = mapStructure;
 
@@ -54,7 +54,7 @@ public class StructureToGenerate
                 structureObjects.Add(mapObject);
 
                 mapObject.GetComponent<MeshRenderer>().materials = structureObject.GetComponent<Renderer>().sharedMaterials; 
-                mapObject.transform.position = new Vector3(centerPathPosition + structureObject.position.x, -4.0f, zTmp + structureObject.position.z);
+                mapObject.transform.position = new Vector3(structureGroundSpawnPositionX + structureObject.position.x, -4.0f, zTmp + structureObject.position.z);
                 mapObject.BaseHeight = structureObject.position.y + 1.0f;
                 mapObject.ShouldRoundHeightToInt = structureObject.GetComponent<MapObject>().ShouldRoundHeightToInt;
             }
