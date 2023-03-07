@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class StructureToGenerate
+public class GroundStructureToGenerate
 {
     private WorldGenerator worldGenerator;
 
@@ -17,14 +17,14 @@ public class StructureToGenerate
     private List<Transform> currentRowObjects;
     private List<MapObject> structureObjects;
 
-    public StructureToGenerate(
+    public GroundStructureToGenerate(
         WorldGenerator worldGenerator,
-        MapStructure mapStructure)
+        GroundStructure groundStructure)
     {
         this.worldGenerator = worldGenerator;
-        if (mapStructure.RandomizePosition)
+        if (groundStructure.RandomizePosition)
         {
-            float offset = worldGenerator.GroundSize.x - mapStructure.Width;
+            float offset = worldGenerator.GroundSize.x - groundStructure.Width;
             structureGroundSpawnPosition = new Vector3(
                 structureGroundSpawnPosition.x,
                 structureGroundSpawnPosition.y,
@@ -34,7 +34,7 @@ public class StructureToGenerate
         {
             structureGroundSpawnPosition = worldGenerator.GeneratePosition;
         }
-        this.mapStructure = mapStructure;
+        this.mapStructure = groundStructure;
 
         structureObjects = new List<MapObject>();
 
@@ -57,8 +57,8 @@ public class StructureToGenerate
 
                 mapObject.GetComponent<MeshRenderer>().materials = structureObject.GetComponent<Renderer>().sharedMaterials;
                 mapObject.transform.position = new Vector3(
-                    structureGroundSpawnPosition.x + structureObject.position.x, 
-                    structureGroundSpawnPosition.y -4.0f, 
+                    structureGroundSpawnPosition.x + structureObject.position.x,
+                    structureGroundSpawnPosition.y - 4.0f,
                     zTmp + structureObject.position.z);
                 mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1.0f;
                 mapObject.RoundHeightToInt = structureObject.GetComponent<MapObject>().RoundHeightToInt;
@@ -81,7 +81,7 @@ public class StructureToGenerate
                 worldGenerator.StructureMapObjectPool.Release(structureObject);
             }
 
-            worldGenerator.RemoveStructureToGenerate(this);
+            worldGenerator.RemoveGroundStructureToGenerate(this);
         }
     }
 }

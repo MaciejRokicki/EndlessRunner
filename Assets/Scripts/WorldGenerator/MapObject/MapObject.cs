@@ -17,7 +17,7 @@ public class MapObject : MonoBehaviour
 
     [HideInInspector]
     public float step;
-    public bool ShouldRoundHeightToInt = false;
+    public bool RoundHeightToInt = false;
 
     private void Start()
     {

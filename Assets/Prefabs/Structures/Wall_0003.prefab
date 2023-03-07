@@ -68,6 +68,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -143,6 +147,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -224,6 +232,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -299,6 +311,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -380,6 +396,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -455,6 +475,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -536,6 +560,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -611,6 +639,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -692,6 +724,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -767,6 +803,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -848,6 +888,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -923,6 +967,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1004,6 +1052,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1079,6 +1131,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1160,6 +1216,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1235,6 +1295,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1316,6 +1380,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1391,6 +1459,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1472,6 +1544,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1547,6 +1623,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1628,6 +1708,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1703,6 +1787,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
@@ -1784,6 +1872,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: ShouldRoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
@@ -1859,6 +1951,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
       propertyPath: t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+      propertyPath: RoundHeightToInt
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5511782231031978379, guid: af810beee9f2ec34582650f51587ba50, type: 3}

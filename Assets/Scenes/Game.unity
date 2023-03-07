@@ -441,6 +441,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: groundStructures.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: mapStructures.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 427953e428fab674f8d64c851e00731e, type: 2}
@@ -476,6 +480,10 @@ PrefabInstance:
       propertyPath: mapStructures.Array.data[8]
       value: 
       objectReference: {fileID: 11400000, guid: 2bafb9847a885c84d97e7a536725a312, type: 2}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: groundStructures.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 855f3318608280e4cb38ca3e3a67c159, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -46,12 +46,16 @@ public class WorldGenerator : MonoBehaviour
 
     [SerializeField]
     private List<MapStructure> mapStructures = new List<MapStructure>();
+    [SerializeField]
+    private List<GroundStructure> groundStructures = new List<GroundStructure>();
     private int structureOffset;
     public int MinStructureOffset = 10;
     private int lastStructureZ = 0;
 
     [SerializeField]
     private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
+    [SerializeField]
+    private List<GroundStructureToGenerate> groundStructuresToGenerate = new List<GroundStructureToGenerate>();
 
     private void Awake()
     {
@@ -89,15 +93,23 @@ public class WorldGenerator : MonoBehaviour
         {
             int chance = Random.Range(0, 100);
 
-            if(chance > 80)
-            {
-                MapStructure mapStructure = mapStructures[Random.Range(0, mapStructures.Count)];
-                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, mapStructure);
-                structuresToGenerate.Add(structureToGenerate);
+            MapStructure structure;
 
-                structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
-                lastStructureZ = Z + mapStructure.Length;
+            if (chance > 80)
+            {
+                structure = mapStructures[Random.Range(0, mapStructures.Count)];
+                StructureToGenerate structureToGenerate = new StructureToGenerate(instance, structure);
+                structuresToGenerate.Add(structureToGenerate);
             }
+            else
+            {
+                structure = groundStructures[Random.Range(0, groundStructures.Count)];
+                GroundStructureToGenerate structureToGenerate = new GroundStructureToGenerate(instance, structure as GroundStructure);
+                groundStructuresToGenerate.Add(structureToGenerate);
+            }
+
+            structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
+            lastStructureZ = Z + structure.Length;
         }
 
         MapRow mapRow = MapRowPool.Get();
@@ -113,6 +125,11 @@ public class WorldGenerator : MonoBehaviour
         for (int i = 0; i < structuresToGenerate.Count; i++)
         {
             structuresToGenerate[i].Generate();
+        }
+
+        for (int i = 0; i < groundStructuresToGenerate.Count; i++)
+        {
+            groundStructuresToGenerate[i].Generate();
         }
     }
 
@@ -185,5 +202,10 @@ public class WorldGenerator : MonoBehaviour
     public void RemoveStructureToGenerate(StructureToGenerate structureToGenerate)
     {
         structuresToGenerate.Remove(structureToGenerate);
+    }
+
+    public void RemoveGroundStructureToGenerate(GroundStructureToGenerate groundStructureToGenerate)
+    {
+        groundStructuresToGenerate.Remove(groundStructureToGenerate);
     }
 }

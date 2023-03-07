@@ -44,12 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e934f5a5d71bc7448244e2abf9e45bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSize: 25
-  rowSize: 5
-  height: 1
-  heightOffset: 5
-  maxGroundHeight: 0
-  z: 0
-  world: {fileID: 0}
+  StartSize: 25
+  GroundSize: {x: 5, y: 1}
+  HeightOffset: 5
+  MaxGroundHeight: 0
+  Z: 0
+  GeneratePosition: {x: 0, y: 0}
+  groundGameObject: {fileID: 0}
+  mapGameObject: {fileID: 0}
+  structureMapGameObject: {fileID: 0}
   rowPrefab: {fileID: 8289949952139514302, guid: 6d590f1ab793ef340997405864ebb1f9, type: 3}
   groundPrefab: {fileID: 6148540562623194363, guid: 67b5d99e7fb39834ea4742db46581470, type: 3}
+  structurePrefab: {fileID: 4582984503615000654, guid: af810beee9f2ec34582650f51587ba50, type: 3}
+  mapStructures: []
+  MinStructureOffset: 10
+  structuresToGenerate: []

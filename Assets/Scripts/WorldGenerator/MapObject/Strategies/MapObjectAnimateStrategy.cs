@@ -12,7 +12,7 @@ public class MapObjectAnimateStrategy : MapObjectStrategy
         }
         else
         {
-            if (mapObject.ShouldRoundHeightToInt)
+            if (mapObject.RoundHeightToInt)
             {              
                 mapObject.mapObjectStrategy = new MapObjectRoundHeightToIntStrategy(mapObject);
             }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class MapStructure : ScriptableObject
 {
     [SerializeField]
-    private Transform structure;
+    protected Transform structure;
     public Transform Structure
     {
         get
@@ -22,7 +22,10 @@ public class MapStructure : ScriptableObject
             {
                 foreach (Transform obj in structure)
                 {
-                    StructureObjects.Add(obj);
+                    if(obj.CompareTag("StructureCube"))
+                    {
+                        StructureObjects.Add(obj);
+                    }
                 }
 
                 StructureObjects = StructureObjects
@@ -39,11 +42,11 @@ public class MapStructure : ScriptableObject
     public int Length;
     [HideInInspector]
     public int Width;
-    [HideInInspector]
+    //[HideInInspector]
     public List<Transform> StructureObjects;
     public bool RandomizePosition = true;
 
-    private void OnValidate()
+    protected void OnValidate()
     {
         Structure = structure;
     }
