@@ -12,7 +12,7 @@ public class GroundStructure : MapStructure
         base.OnValidate();
 
         paths.Clear();
-        triggers.Clear();
+        triggers.Clear();   
 
         if (structure)
         {
