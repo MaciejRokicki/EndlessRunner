@@ -12,14 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: Wall_0002
   m_EditorClassIdentifier: 
-  structure: {fileID: 2682242039182856219, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  Length: 0
-  Width: 3
-  StructureObjects:
-  - {fileID: 867250328498727840, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  - {fileID: 498356639359818711, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  - {fileID: 2473256444637470432, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  - {fileID: 113455188755827056, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  - {fileID: 2056082338028728240, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
-  - {fileID: 6279197192954480434, guid: 07d8ee9dda2fd744dbd860979b950948, type: 3}
+  structure: {fileID: 914153043730483711, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}
   RandomizePosition: 1
+  Size: {x: 3, y: 1, z: 5}
+  Colliders:
+  - {fileID: 5078301229833607461, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}
+  - {fileID: 3025819798733695609, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}

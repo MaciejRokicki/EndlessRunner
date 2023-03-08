@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Wall_0001
   m_EditorClassIdentifier: 
   structure: {fileID: 914153043730483711, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
-  Length: 0
-  StructureObjects:
-  - {fileID: 7856669334314717032, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
-  - {fileID: 58429341677730402, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
-  - {fileID: 8034559344564217238, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}
+  RandomizePosition: 1
+  Size: {x: 3, y: 1, z: 1}
+  Colliders:
+  - {fileID: 5078301229833607461, guid: 03b9a1cbe17dcd6418f26c1dfad2b5e2, type: 3}

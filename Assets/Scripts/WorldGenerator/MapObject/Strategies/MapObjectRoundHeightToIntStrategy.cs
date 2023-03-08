@@ -8,6 +8,6 @@ public class MapObjectRoundHeightToIntStrategy : MapObjectStrategy
     {
         mapObject.transform.position = new Vector3(mapObject.transform.position.x, Mathf.RoundToInt(mapObject.transform.position.y), mapObject.transform.position.z);
 
-        mapObject.mapObjectStrategy = new MapObjectDefaultStrategy(mapObject);
+        mapObject.MapObjectStrategy = new MapObjectEmptyStrategy(mapObject);
     }
 }

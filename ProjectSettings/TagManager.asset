@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - GroundStructurePath
-  - GroundStructurePathTrigger
-  - StructureCube
+  - MapObject
+  - StructureCollider
+  - OnStartMapObject
   layers:
   - Default
   - TransparentFX

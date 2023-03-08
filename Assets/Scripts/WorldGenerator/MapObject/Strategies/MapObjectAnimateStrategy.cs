@@ -14,11 +14,11 @@ public class MapObjectAnimateStrategy : MapObjectStrategy
         {
             if (mapObject.RoundHeightToInt)
             {              
-                mapObject.mapObjectStrategy = new MapObjectRoundHeightToIntStrategy(mapObject);
+                mapObject.MapObjectStrategy = new MapObjectRoundHeightToIntStrategy(mapObject);
             }
             else
             {
-                mapObject.mapObjectStrategy = new MapObjectDefaultStrategy(mapObject);
+                mapObject.MapObjectStrategy = new MapObjectEmptyStrategy(mapObject);
             }
         }
     }

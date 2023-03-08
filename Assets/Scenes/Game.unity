@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5893323}
   - component: {fileID: 5893324}
   m_Layer: 0
-  m_Name: World
+  m_Name: RowContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5893324
 BoxCollider:
@@ -268,7 +268,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 160, y: -10, z: 0}
 --- !u!1 &1322632987
 GameObject:
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1322632988}
   m_Layer: 0
-  m_Name: MapObjects
+  m_Name: MapObjectContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1476361240
 GameObject:
@@ -311,7 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1476361241}
   m_Layer: 0
-  m_Name: StructureObjects
+  m_Name: ColliderContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &653762584119729251
 PrefabInstance:
@@ -346,7 +346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7130185415308078950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7130185415308078950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -405,6 +405,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6148540562623194363, guid: 67b5d99e7fb39834ea4742db46581470, type: 3}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: mapContainer
+      value: 
+      objectReference: {fileID: 1322632987}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: rowContainer
+      value: 
+      objectReference: {fileID: 5893322}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: mapGameObject
       value: 
       objectReference: {fileID: 1322632987}
@@ -412,6 +420,14 @@ PrefabInstance:
       propertyPath: StructureOffset
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: groundContainer
+      value: 
+      objectReference: {fileID: 1322632987}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: mapObjectPrefab
+      value: 
+      objectReference: {fileID: 6148540562623194363, guid: 67b5d99e7fb39834ea4742db46581470, type: 3}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structurePrefab
       value: 
@@ -421,6 +437,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5893322}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: colliderContainer
+      value: 
+      objectReference: {fileID: 1476361240}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: GeneratePosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -429,9 +449,21 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: mapObjectContainer
+      value: 
+      objectReference: {fileID: 1322632987}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: structureContainer
+      value: 
+      objectReference: {fileID: 1476361240}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: mapObjectGameObject
       value: 
       objectReference: {fileID: 1322632987}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: structures.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structureMapGameObject
       value: 
@@ -440,6 +472,14 @@ PrefabInstance:
       propertyPath: mapStructures.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: structures.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 427953e428fab674f8d64c851e00731e, type: 2}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: structures.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 58753fe1e3bd9a34f961219821cca8b0, type: 2}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: groundStructures.Array.size
       value: 1
@@ -499,7 +539,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4965532507855913475, guid: a25fa8579ff21a840b92a1fa2e268711, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4965532507855913475, guid: a25fa8579ff21a840b92a1fa2e268711, type: 3}
       propertyPath: m_LocalPosition.x

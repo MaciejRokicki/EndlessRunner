@@ -4,14 +4,13 @@ using UnityEngine;
 public class MapRow : MonoBehaviour
 {
     private WorldGenerator worldGenerator;
-
-    private List<MapObject> mapObjects;
+    private List<MapObject> rowObjects;
 
     private void Awake()
     {
         worldGenerator = WorldGenerator.Instance;
 
-        mapObjects = new List<MapObject>();
+        rowObjects = new List<MapObject>();
     }
 
     private void Start()
@@ -23,13 +22,13 @@ public class MapRow : MonoBehaviour
     {
         if (transform.position.z < worldGenerator.PlayerController.transform.position.z - 2.0f)
         {
-            worldGenerator.MapRowPool.Release(this);
-
-            for(int i = 0; i < mapObjects.Count; i++)
+            for(int i = 0; i < rowObjects.Count; i++)
             {
-                worldGenerator.MapObjectPool.Release(mapObjects[i]);
-                mapObjects.RemoveAt(i);
+                worldGenerator.MapObjectPool.Release(rowObjects[i]);
             }
+
+            rowObjects.Clear();
+            worldGenerator.MapRowPool.Release(this);
         }
     }
 
@@ -50,7 +49,7 @@ public class MapRow : MonoBehaviour
                 worldGenerator.GeneratePosition.y + (animate ? y - worldGenerator.HeightOffset : y), 
                 worldGenerator.Z);
             mapObject.BaseHeight = y;
-            mapObjects.Add(mapObject);
+            rowObjects.Add(mapObject);
         }
     }
 }

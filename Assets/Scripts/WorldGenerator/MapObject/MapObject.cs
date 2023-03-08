@@ -13,7 +13,12 @@ public class MapObject : MonoBehaviour
         }
     }
 
-    public MapObjectStrategy mapObjectStrategy;
+    private MapObjectStrategy mapObjectStrategy;
+    public MapObjectStrategy MapObjectStrategy
+    {
+        get { return mapObjectStrategy; }
+        set { mapObjectStrategy = value; }
+    }
 
     [HideInInspector]
     public float step;

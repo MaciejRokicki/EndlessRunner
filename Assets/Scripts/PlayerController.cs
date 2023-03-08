@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         if(currentTimer > timer)
         {
-            if (worldGenerator.Z - transform.position.z < worldGenerator.StartSize)
+            if (worldGenerator.Z - transform.position.z < worldGenerator.StartLength)
             {
                 worldGenerator.GenerateRow();
             }

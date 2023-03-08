@@ -6,56 +6,51 @@ public class WorldGenerator : MonoBehaviour
 {
     private static WorldGenerator instance;
     public static WorldGenerator Instance
-    { 
-        get { return instance; } 
+    {
+        get { return instance; }
     }
-
-    private GameManager gameManager;
 
     private PlayerController playerController;
     public PlayerController PlayerController
-    { 
+    {
         get { return playerController; }
         set { playerController = value; }
     }
 
-    public int StartSize = 25;
+    [SerializeField]
+    private GameObject rowPrefab;
+    [SerializeField]
+    private GameObject colliderPrefab;
+    [SerializeField]
+    private GameObject mapObjectPrefab;
+
+    [SerializeField]
+    private GameObject rowContainer;
+    [SerializeField]
+    private GameObject mapObjectContainer;
+    [SerializeField]
+    private GameObject colliderContainer;
+
+    public int StartLength = 25;
     public Vector2 GroundSize = new Vector2(5.0f, 1.0f);
     public float HeightOffset = 5.0f;
     [HideInInspector]
     public float MaxGroundHeight = 0.0f;
-    public int Z = 0;
+    public float Z = 0;
     public Vector2 GeneratePosition;
 
     public IObjectPool<MapRow> MapRowPool;
     public IObjectPool<MapObject> MapObjectPool;
-    public IObjectPool<MapObject> StructureMapObjectPool;
+    public IObjectPool<GameObject> StructureOnStartMapObjectPool;
+    public IObjectPool<GameObject> ColliderPool;
 
     [SerializeField]
-    private GameObject groundGameObject;
-    [SerializeField]
-    private GameObject mapGameObject;
-    [SerializeField]
-    private GameObject structureMapGameObject;
-    [SerializeField]
-    private GameObject rowPrefab;
-    [SerializeField]
-    private GameObject groundPrefab;
-    [SerializeField]
-    private GameObject structurePrefab;
-
-    [SerializeField]
-    private List<MapStructure> mapStructures = new List<MapStructure>();
-    [SerializeField]
-    private List<GroundStructure> groundStructures = new List<GroundStructure>();
-    private int structureOffset;
-    public int MinStructureOffset = 10;
-    private int lastStructureZ = 0;
-
+    private List<MapStructure> structures = new List<MapStructure>();
     [SerializeField]
     private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
-    [SerializeField]
-    private List<GroundStructureToGenerate> groundStructuresToGenerate = new List<GroundStructureToGenerate>();
+    private int structureOffset;
+    public int MinStructureOffset = 10;
+    private float lastStructureZ = 0;
 
     private void Awake()
     {
@@ -71,45 +66,44 @@ public class WorldGenerator : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
-
         MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
         MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
-        StructureMapObjectPool = new ObjectPool<MapObject>(OnCreateStructureMapObject, OnGetStructureMapObject, OnReturnedStructureMapObject, OnDestroyStructureMapObject);
+        StructureOnStartMapObjectPool = new ObjectPool<GameObject>(
+            OnCreateStructureOnStartMapObject, 
+            OnGetStructureOnStartMapObject, 
+            OnReturnedStructureOnStartMapObject, 
+            OnDestroyStructureOnStartMapObject);
+        ColliderPool = new ObjectPool<GameObject>(
+            OnCreateCollider,
+            OnGetCollider,
+            OnReturnedCollider,
+            OnDestroyCollider);
 
         structureOffset = MinStructureOffset;
 
-        for(int i = 0; i < StartSize; i++)
+        for (int i = 0; i < StartLength; i++)
         {
             GenerateRow(false);
         }
 
-        Z = StartSize;
+        Z = StartLength;
     }
 
     public void GenerateRow(bool animate = true)
     {
-        if(Z > StartSize && Z - lastStructureZ > structureOffset)
+        if (Z > StartLength && Z - lastStructureZ > structureOffset)
         {
             int chance = Random.Range(0, 100);
 
-            MapStructure structure;
-
             if (chance > 80)
             {
-                structure = mapStructures[Random.Range(0, mapStructures.Count)];
+                MapStructure structure = structures[Random.Range(0, structures.Count)];
                 StructureToGenerate structureToGenerate = new StructureToGenerate(instance, structure);
                 structuresToGenerate.Add(structureToGenerate);
-            }
-            else
-            {
-                structure = groundStructures[Random.Range(0, groundStructures.Count)];
-                GroundStructureToGenerate structureToGenerate = new GroundStructureToGenerate(instance, structure as GroundStructure);
-                groundStructuresToGenerate.Add(structureToGenerate);
-            }
 
-            structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
-            lastStructureZ = Z + structure.Length;
+                structureOffset = Random.Range(MinStructureOffset, MinStructureOffset * 2);
+                lastStructureZ = Z + structure.Size.z;
+            }
         }
 
         MapRow mapRow = MapRowPool.Get();
@@ -117,8 +111,8 @@ public class WorldGenerator : MonoBehaviour
         mapRow.transform.position = new Vector3(GeneratePosition.x, GeneratePosition.y, Z);
         mapRow.Initialize(animate);
 
-        groundGameObject.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, Z);
-        groundGameObject.GetComponent<BoxCollider>().center = new Vector3(2.0f, GeneratePosition.y + MaxGroundHeight * 0.7f, Z / 2.0f);
+        rowContainer.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, Z);
+        rowContainer.GetComponent<BoxCollider>().center = new Vector3(2.0f, GeneratePosition.y + MaxGroundHeight * 0.7f, Z / 2.0f);
 
         Z++;
 
@@ -126,16 +120,12 @@ public class WorldGenerator : MonoBehaviour
         {
             structuresToGenerate[i].Generate();
         }
-
-        for (int i = 0; i < groundStructuresToGenerate.Count; i++)
-        {
-            groundStructuresToGenerate[i].Generate();
-        }
     }
 
+#region Pools
     private MapRow OnCreateMapRow()
     {
-        MapRow mapRow = Instantiate(rowPrefab, new Vector3(0.0f, 0.0f, Z), Quaternion.identity, groundGameObject.transform).GetComponent<MapRow>();
+        MapRow mapRow = Instantiate(rowPrefab, new Vector3(0.0f, 0.0f, Z), Quaternion.identity, rowContainer.transform).GetComponent<MapRow>();
 
         return mapRow;
     }
@@ -155,9 +145,10 @@ public class WorldGenerator : MonoBehaviour
         Destroy(mapRow);
     }
 
+
     private MapObject OnCreateMapObject()
     {
-        MapObject mapRow = Instantiate(groundPrefab, Vector3.zero, Quaternion.identity, mapGameObject.transform).GetComponent<MapObject>();
+        MapObject mapRow = Instantiate(mapObjectPrefab, Vector3.zero, Quaternion.identity, mapObjectContainer.transform).GetComponent<MapObject>();
 
         return mapRow;
     }
@@ -177,35 +168,55 @@ public class WorldGenerator : MonoBehaviour
         Destroy(mapObject);
     }
 
-    private MapObject OnCreateStructureMapObject()  
-    {
-        MapObject mapRow = Instantiate(structurePrefab, Vector3.zero, Quaternion.identity, structureMapGameObject.transform).GetComponent<MapObject>();
 
-        return mapRow;
+    private GameObject OnCreateStructureOnStartMapObject()
+    {
+        GameObject onStartMapObject = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity, mapObjectContainer.transform);
+
+        return onStartMapObject;
     }
 
-    private void OnGetStructureMapObject(MapObject mapObject)
+    private void OnGetStructureOnStartMapObject(GameObject onStartMapObject)
     {
-        mapObject.gameObject.SetActive(true);
+        onStartMapObject.gameObject.SetActive(true);
     }
 
-    private void OnReturnedStructureMapObject(MapObject mapObject)
+    private void OnReturnedStructureOnStartMapObject(GameObject onStartMapObject)
     {
-        mapObject.gameObject.SetActive(false);
+        onStartMapObject.gameObject.SetActive(false);
     }
 
-    private void OnDestroyStructureMapObject(MapObject mapObject)
+    private void OnDestroyStructureOnStartMapObject(GameObject onStartMapObject)
     {
-        Destroy(mapObject);
+        Destroy(onStartMapObject);
     }
+
+
+    private GameObject OnCreateCollider()
+    {
+        GameObject onStartMapObject = Instantiate(colliderPrefab, Vector3.zero, Quaternion.identity, colliderContainer.transform);
+
+        return onStartMapObject;
+    }
+
+    private void OnGetCollider(GameObject onStartMapObject)
+    {
+        onStartMapObject.gameObject.SetActive(true);
+    }
+
+    private void OnReturnedCollider(GameObject onStartMapObject)
+    {
+        onStartMapObject.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyCollider(GameObject onStartMapObject)
+    {
+        Destroy(onStartMapObject);
+    }
+    #endregion
 
     public void RemoveStructureToGenerate(StructureToGenerate structureToGenerate)
     {
         structuresToGenerate.Remove(structureToGenerate);
-    }
-
-    public void RemoveGroundStructureToGenerate(GroundStructureToGenerate groundStructureToGenerate)
-    {
-        groundStructuresToGenerate.Remove(groundStructureToGenerate);
     }
 }
