@@ -67,7 +67,9 @@ public class MapStructure : ScriptableObject
     }
     public bool RandomizePosition = true;
     public Vector3 Size;
+    [HideInInspector]
     public List<Transform> Colliders;
+    [HideInInspector]
     public List<List<Transform>> ObjectRows;
 
     private void OnValidate()

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -23,19 +21,21 @@ public class StructureToGenerate
         MapStructure mapStructure)
     {
         this.worldGenerator = worldGenerator;
+        this.mapStructure = mapStructure;
+
         if (mapStructure.RandomizePosition)
         {
             float offset = worldGenerator.GroundSize.x - mapStructure.Size.x;
+
             structureGroundSpawnPosition = new Vector3(
-                Mathf.Floor(UnityEngine.Random.Range(0.0f, offset + 1.0f)),
-                structureGroundSpawnPosition.y,
+                worldGenerator.GeneratePosition.x + Mathf.Floor(UnityEngine.Random.Range(0.0f, offset + 1.0f)),
+                worldGenerator.GeneratePosition.y + structureGroundSpawnPosition.y,
                 structureGroundSpawnPosition.z);
         }
         else
         {
             structureGroundSpawnPosition = worldGenerator.GeneratePosition;
         }
-        this.mapStructure = mapStructure;
 
         colliders = new List<GameObject>();
         structureObjects = new List<MapObject>();
@@ -78,7 +78,7 @@ public class StructureToGenerate
                     structureGroundSpawnPosition.y - 4.0f,
                     zTmp + structureObject.position.z);
 
-                mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1.0f;
+                mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1;
                 mapObject.RoundHeightToInt = structureObject.GetComponent<MapObject>().RoundHeightToInt;
             }
 

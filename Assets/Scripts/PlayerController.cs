@@ -30,11 +30,18 @@ public class PlayerController : MonoBehaviour
     private float timer = 0.0f;
     private float currentTimer = 0.0f;
 
+    private Vector3 lastPosition;
+    //TODO: przeniesc do GameManager'a
+    private float gameOverTimer = 1.0f;
+    private float currentGameOverTimer = 0.0f;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
 
         worldGenerator = WorldGenerator.Instance;
+
+        lastPosition = transform.position;
     }
 
     void Update()
@@ -42,6 +49,23 @@ public class PlayerController : MonoBehaviour
         RotateCharacter();
         MoveCharacter();
         GenerateMap();
+
+        //TODO: przeniesc do GameManager'a
+        if(lastPosition.z + 0.1f > transform.position.z)
+        {
+            currentGameOverTimer += Time.deltaTime;
+
+            if(currentGameOverTimer > gameOverTimer)
+            {
+                Debug.Log("Game Over");
+            }
+        }
+        else
+        {
+            currentGameOverTimer = 0.0f;
+        }
+
+        lastPosition = transform.position;
     }
 
     private void RotateCharacter()

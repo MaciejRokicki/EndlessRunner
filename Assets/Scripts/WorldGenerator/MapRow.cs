@@ -4,6 +4,7 @@ using UnityEngine;
 public class MapRow : MonoBehaviour
 {
     private WorldGenerator worldGenerator;
+    [SerializeField]
     private List<MapObject> rowObjects;
 
     private void Awake()
@@ -13,14 +14,9 @@ public class MapRow : MonoBehaviour
         rowObjects = new List<MapObject>();
     }
 
-    private void Start()
-    {
-        Initialize();
-    }
-
     private void Update()
     {
-        if (transform.position.z < worldGenerator.PlayerController.transform.position.z - 2.0f)
+        if (worldGenerator.PlayerController.transform.position.z - 2.0f > transform.position.z)
         {
             for(int i = 0; i < rowObjects.Count; i++)
             {

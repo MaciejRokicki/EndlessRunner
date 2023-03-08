@@ -4,11 +4,13 @@ using UnityEditor;
 public class WorldGeneratorEditor : Editor
 {
     private bool prefabsFoldout;
+    private SerializedProperty groundColliderPrefab;
     private SerializedProperty rowPrefab;
     private SerializedProperty colliderPrefab;
     private SerializedProperty mapObjectPrefab;
 
     private bool containersFoldout;
+    private SerializedProperty groundColliderContainer;
     private SerializedProperty rowContainer;
     private SerializedProperty mapObjectContainer;
     private SerializedProperty colliderContainer;
@@ -28,10 +30,12 @@ public class WorldGeneratorEditor : Editor
 
     void OnEnable()
     {
+        groundColliderPrefab = serializedObject.FindProperty("groundColliderPrefab");
         rowPrefab = serializedObject.FindProperty("rowPrefab");
         colliderPrefab = serializedObject.FindProperty("colliderPrefab");
         mapObjectPrefab = serializedObject.FindProperty("mapObjectPrefab");
 
+        groundColliderContainer = serializedObject.FindProperty("groundColliderContainer");
         rowContainer = serializedObject.FindProperty("rowContainer");
         mapObjectContainer = serializedObject.FindProperty("mapObjectContainer");
         colliderContainer = serializedObject.FindProperty("colliderContainer");
@@ -56,6 +60,7 @@ public class WorldGeneratorEditor : Editor
         if (prefabsFoldout)
         {
             EditorGUI.indentLevel = 1;
+            EditorGUILayout.PropertyField(groundColliderPrefab);
             EditorGUILayout.PropertyField(rowPrefab);
             EditorGUILayout.PropertyField(colliderPrefab);
             EditorGUILayout.PropertyField(mapObjectPrefab);
@@ -66,6 +71,7 @@ public class WorldGeneratorEditor : Editor
         if (containersFoldout)
         {
             EditorGUI.indentLevel = 1;
+            EditorGUILayout.PropertyField(groundColliderContainer);
             EditorGUILayout.PropertyField(rowContainer);
             EditorGUILayout.PropertyField(mapObjectContainer);
             EditorGUILayout.PropertyField(colliderContainer);

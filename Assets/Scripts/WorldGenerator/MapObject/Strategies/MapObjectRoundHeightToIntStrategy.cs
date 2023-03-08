@@ -6,7 +6,7 @@ public class MapObjectRoundHeightToIntStrategy : MapObjectStrategy
 
     public override void Update()
     {
-        mapObject.transform.position = new Vector3(mapObject.transform.position.x, Mathf.RoundToInt(mapObject.transform.position.y), mapObject.transform.position.z);
+        mapObject.transform.position = new Vector3(mapObject.transform.position.x, mapObject.BaseHeight, mapObject.transform.position.z);
 
         mapObject.MapObjectStrategy = new MapObjectEmptyStrategy(mapObject);
     }

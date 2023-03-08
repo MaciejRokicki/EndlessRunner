@@ -44,12 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e934f5a5d71bc7448244e2abf9e45bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundColliderPrefab: {fileID: 5493430678004266015, guid: dddb347d6fdc6df48a8632a7fd3b89d4, type: 3}
   rowPrefab: {fileID: 8289949952139514302, guid: 6d590f1ab793ef340997405864ebb1f9, type: 3}
   colliderPrefab: {fileID: 4114496083800221743, guid: 7c8b30ac4215cf54586c41afbf5f3319, type: 3}
   mapObjectPrefab: {fileID: 6148540562623194363, guid: 67b5d99e7fb39834ea4742db46581470, type: 3}
+  groundColliderContainer: {fileID: 0}
   rowContainer: {fileID: 0}
-  groundContainer: {fileID: 0}
-  structureContainer: {fileID: 0}
+  mapObjectContainer: {fileID: 0}
+  colliderContainer: {fileID: 0}
   StartLength: 25
   GroundSize: {x: 5, y: 1}
   HeightOffset: 5
