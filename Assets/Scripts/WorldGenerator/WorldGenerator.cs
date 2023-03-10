@@ -115,17 +115,23 @@ public class WorldGenerator : MonoBehaviour
         {
             if (Z - lastChangeGeneratePositionZ > 10.0f)
             {
-                int randLength = Random.Range(5, 30) + 10;
-
-                if (Random.Range(0, 100) <= 50)
+                if(Random.Range(0, 100) > 90)
                 {
-                    GeneratePosition.x += Random.Range(0, 100) <= 50 ? -1.0f : 1.0f;
+                    GeneratePosition.x += Random.Range(0, 100) <= 50 ? -7.0f : 7.0f;
                 }
                 else
                 {
-                    GeneratePosition.y += Random.Range(0, 100) <= 50 ? -0.75f : 0.75f;
+                    if (Random.Range(0, 100) <= 50)
+                    {
+                        GeneratePosition.x += Random.Range(0, 100) <= 50 ? -1.0f : 1.0f;
+                    }
+                    else
+                    {
+                        GeneratePosition.y += Random.Range(0, 100) <= 50 ? -0.75f : 0.75f;
+                    }
                 }
 
+                int randLength = Random.Range(5, 30) + 10;
                 lastChangeGeneratePositionZ = Z + randLength - 10.0f;
                 currentGroundCollider = GroundColliderPool.Get();
 
