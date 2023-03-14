@@ -45,6 +45,7 @@ public class MapRow : MonoBehaviour
                 worldGenerator.GeneratePosition.y + (animate ? y - worldGenerator.HeightOffset : y), 
                 worldGenerator.Z);
             mapObject.BaseHeight = y;
+            mapObject.transform.localScale = Vector3.one;
             rowObjects.Add(mapObject);
         }
     }

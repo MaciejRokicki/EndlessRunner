@@ -80,6 +80,7 @@ public class StructureToGenerate
 
                 mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1;
                 mapObject.RoundHeightToInt = structureObject.GetComponent<MapObject>().RoundHeightToInt;
+                mapObject.transform.localScale = new Vector3(0.9999f, 0.9999f, 0.9999f);
             }
 
             currentRowId++;
