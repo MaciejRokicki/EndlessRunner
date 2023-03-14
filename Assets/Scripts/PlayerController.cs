@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
         set 
         { 
             playerSpeed = value; 
-            timer = 1 / playerSpeed;
+            timer = 1 / (playerSpeed + worldGenerator.StartLength);
         } 
     }
     [SerializeField]
@@ -38,10 +38,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
         worldGenerator = WorldGenerator.Instance;
 
         lastPosition = transform.position;
+        PlayerSpeed = 8.0f;
     }
 
     void Update()

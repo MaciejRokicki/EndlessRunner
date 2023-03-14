@@ -25,6 +25,7 @@ public class WorldGeneratorEditor : Editor
 
     private bool structuresFoldout;
     private SerializedProperty structures;
+    private SerializedProperty effectStructures;
     private SerializedProperty structuresToGenerate;
     private SerializedProperty minStructureOffset;
 
@@ -48,6 +49,7 @@ public class WorldGeneratorEditor : Editor
         generatePosition = serializedObject.FindProperty("GeneratePosition");
 
         structures = serializedObject.FindProperty("structures");
+        effectStructures = serializedObject.FindProperty("effectStructures");
         structuresToGenerate = serializedObject.FindProperty("structuresToGenerate");
         minStructureOffset = serializedObject.FindProperty("MinStructureOffset");
     }
@@ -94,6 +96,7 @@ public class WorldGeneratorEditor : Editor
             {
                 EditorGUI.indentLevel = 2;
                 EditorGUILayout.PropertyField(structures);
+                EditorGUILayout.PropertyField(effectStructures);
                 EditorGUILayout.PropertyField(structuresToGenerate);
                 EditorGUILayout.PropertyField(minStructureOffset);
                 EditorGUI.indentLevel = 1;

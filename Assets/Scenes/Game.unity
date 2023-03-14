@@ -520,6 +520,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 58753fe1e3bd9a34f961219821cca8b0, type: 2}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: structures.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b664121fe5a76134380bb57e339b4e32, type: 2}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: effectStructures.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: groundStructures.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -559,6 +567,10 @@ PrefabInstance:
       propertyPath: mapStructures.Array.data[8]
       value: 
       objectReference: {fileID: 11400000, guid: 2bafb9847a885c84d97e7a536725a312, type: 2}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: effectStructures.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b664121fe5a76134380bb57e339b4e32, type: 2}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: groundStructures.Array.data[0]
       value: 

@@ -40,6 +40,7 @@ public class MapRow : MonoBehaviour
             }
 
             MapObject mapObject = worldGenerator.MapObjectPool.Get();
+            mapObject.GetComponent<MeshRenderer>().materials = worldGenerator.mapObjectPrefab.GetComponent<Renderer>().sharedMaterials;
             mapObject.transform.position = new Vector3(
                 worldGenerator.GeneratePosition.x + x, 
                 worldGenerator.GeneratePosition.y + (animate ? y - worldGenerator.HeightOffset : y), 
