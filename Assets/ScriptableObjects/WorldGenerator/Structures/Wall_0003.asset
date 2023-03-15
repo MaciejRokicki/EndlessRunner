@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
+  m_Name: Wall_0003
+  m_EditorClassIdentifier: 
+  structure: {fileID: 914153043730483711, guid: d92e9ef5e9efa6848abebb8fa25e59ec, type: 3}
+  RandomizePosition: 1
+  CustomGround: 0
+  Size: {x: 3, y: 3, z: 1}
+  Colliders:
+  - {fileID: 5078301229833607461, guid: d92e9ef5e9efa6848abebb8fa25e59ec, type: 3}
