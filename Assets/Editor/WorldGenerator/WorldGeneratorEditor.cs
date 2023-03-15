@@ -24,6 +24,9 @@ public class WorldGeneratorEditor : Editor
     private SerializedProperty generatePosition;
 
     private bool structuresFoldout;
+    private SerializedProperty easyStructureTierChance;
+    private SerializedProperty mediumStructureTierChance;
+    private SerializedProperty hardStructureTierChance;
     private SerializedProperty structures;
     private SerializedProperty effectStructures;
     private SerializedProperty minStructureOffset;
@@ -47,6 +50,9 @@ public class WorldGeneratorEditor : Editor
         z = serializedObject.FindProperty("Z");
         generatePosition = serializedObject.FindProperty("GeneratePosition");
 
+        easyStructureTierChance = serializedObject.FindProperty("easyStructureTierChance");
+        mediumStructureTierChance = serializedObject.FindProperty("mediumStructureTierChance");
+        hardStructureTierChance = serializedObject.FindProperty("hardStructureTierChance");
         structures = serializedObject.FindProperty("structures");
         effectStructures = serializedObject.FindProperty("effectStructures");
         minStructureOffset = serializedObject.FindProperty("MinStructureOffset");
@@ -93,9 +99,12 @@ public class WorldGeneratorEditor : Editor
             if (structuresFoldout)
             {
                 EditorGUI.indentLevel = 2;
+                EditorGUILayout.PropertyField(easyStructureTierChance);
+                EditorGUILayout.PropertyField(mediumStructureTierChance);
+                EditorGUILayout.PropertyField(hardStructureTierChance);
+                EditorGUILayout.PropertyField(minStructureOffset);
                 EditorGUILayout.PropertyField(structures);
                 EditorGUILayout.PropertyField(effectStructures);
-                EditorGUILayout.PropertyField(minStructureOffset);
                 EditorGUI.indentLevel = 1;
             }
             EditorGUI.indentLevel = 0;

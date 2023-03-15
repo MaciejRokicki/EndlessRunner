@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ScriptableObjects", menuName = "WorldGenerator/MapStructure")]
 public class MapStructure : ScriptableObject
 {
+    public StructureTier Tier;
     [SerializeField]
     protected Transform structure;
     public Transform Structure

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: MovementSpeedBoost_0001
   m_EditorClassIdentifier: 
+  Tier: 1
   structure: {fileID: 3504104546448367029, guid: 243fd52b21121e6489d4c4dd96a211e2, type: 3}
   RandomizePosition: 0
   CustomGround: 1
-  Size: {x: 5, y: 2, z: 6}
-  Colliders: []
+  Size: {x: 5, y: 2.25, z: 6}
+  Colliders:
+  - {fileID: 6692100323057464274, guid: 243fd52b21121e6489d4c4dd96a211e2, type: 3}
+  - {fileID: 4651120764210170788, guid: 243fd52b21121e6489d4c4dd96a211e2, type: 3}
+  - {fileID: 4127564346165618533, guid: 243fd52b21121e6489d4c4dd96a211e2, type: 3}

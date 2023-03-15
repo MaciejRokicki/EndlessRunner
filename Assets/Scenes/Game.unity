@@ -504,9 +504,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1476361240}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: easyStructureTierChance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: groundColliderContainer
       value: 
       objectReference: {fileID: 795174188}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: hardStructureTierChance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: mapStructures.Array.size
       value: 4
@@ -543,6 +551,10 @@ PrefabInstance:
       propertyPath: structures.Array.data[7]
       value: 
       objectReference: {fileID: 11400000, guid: 0f5178c2571a4064592098ce063376bd, type: 2}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: mediumStructureTierChance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: effectStructures.Array.size
       value: 3

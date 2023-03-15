@@ -53,12 +53,19 @@ public class WorldGenerator : MonoBehaviour
     public IObjectPool<GameObject> ColliderPool;
 
     [SerializeField]
+    private int easyStructureTierChance;
+    [SerializeField]
+    private int mediumStructureTierChance;
+    [SerializeField]
+    private int hardStructureTierChance;
+    private int structureOffset;
+    public int MinStructureOffset = 10;
+    [SerializeField]
     private List<MapStructure> structures = new List<MapStructure>();
+    private Dictionary<StructureTier, List<MapStructure>> structuresGroupedByTier = new Dictionary<StructureTier, List<MapStructure>>();
     [SerializeField]
     private List<MapStructure> effectStructures = new List<MapStructure>();
     private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
-    private int structureOffset;
-    public int MinStructureOffset = 10;
     private float lastStructureZ = 0.0f;
     private float customGroundZ = 0.0f;
 
@@ -110,6 +117,16 @@ public class WorldGenerator : MonoBehaviour
             StartLength / 2.0f);
 
         currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, StartLength + 1.0f);
+
+        for(int i = 0; i < System.Enum.GetNames(typeof(StructureTier)).Length; i++)
+        {
+            structuresGroupedByTier[(StructureTier)i] = new List<MapStructure>();
+        }
+
+        foreach(MapStructure mapStructure in structures)
+        {
+            structuresGroupedByTier[mapStructure.Tier].Add(mapStructure);
+        }
     }
 
     private void FixedUpdate()
@@ -338,7 +355,19 @@ public class WorldGenerator : MonoBehaviour
 
         if (structureTypeChance <= 98)
         {
-            structure = structures[Random.Range(0, structures.Count)];
+            int structureTierChance = Random.Range(0, easyStructureTierChance + mediumStructureTierChance + hardStructureTierChance);
+            StructureTier randStuctureTier = StructureTier.Easy;
+
+            if (structureTierChance >= easyStructureTierChance && structureTierChance < easyStructureTierChance + mediumStructureTierChance)
+            {
+                randStuctureTier = StructureTier.Medium;
+            }
+            else if(structureTierChance >= easyStructureTierChance + mediumStructureTierChance && structureTierChance < easyStructureTierChance + mediumStructureTierChance + hardStructureTierChance)
+            {
+                randStuctureTier = StructureTier.Hard;
+            }
+
+            structure = structuresGroupedByTier[randStuctureTier][Random.Range(0, structuresGroupedByTier[randStuctureTier].Count)];
         }
         else
         {

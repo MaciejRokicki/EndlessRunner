@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: MovementSpeedSlow_0001
   m_EditorClassIdentifier: 
+  Tier: 1
   structure: {fileID: 3504104546448367029, guid: 0b42181535857c8488860e223dec8dc8, type: 3}
   RandomizePosition: 0
   CustomGround: 1

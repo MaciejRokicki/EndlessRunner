@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: Wall_0008
   m_EditorClassIdentifier: 
+  Tier: 2
   structure: {fileID: 914153043730483711, guid: 4716f4854e6b4ce4fa0118e8a5260e4b, type: 3}
   RandomizePosition: 0
   CustomGround: 0

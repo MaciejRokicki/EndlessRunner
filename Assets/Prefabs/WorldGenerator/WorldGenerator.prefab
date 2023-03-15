@@ -58,6 +58,9 @@ MonoBehaviour:
   MaxGroundHeight: 0
   Z: 0
   GeneratePosition: {x: 0, y: 0}
+  easyStructureTierChance: 60
+  mediumStructureTierChance: 30
+  hardStructureTierChance: 10
   structures: []
   effectStructures: []
   MinStructureOffset: 5
