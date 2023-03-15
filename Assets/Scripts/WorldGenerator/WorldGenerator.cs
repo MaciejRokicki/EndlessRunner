@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,6 +9,8 @@ public class WorldGenerator : MonoBehaviour
     {
         get { return instance; }
     }
+
+    private StructureManager structureManager;
 
     private PlayerController playerController;
     public PlayerController PlayerController
@@ -45,7 +45,11 @@ public class WorldGenerator : MonoBehaviour
     public float Z = 0;
     public Vector2 GeneratePosition;
     private float lastChangeGeneratePositionZ = 0.0f;
+    [SerializeField]
+    private int jumpGroundChance = 10;
     private float lastGroundJumpZ = 0.0f;
+    [SerializeField]
+    private int effectStructureChance = 2;
 
     private GameObject currentGroundCollider;
 
@@ -54,152 +58,6 @@ public class WorldGenerator : MonoBehaviour
     public IObjectPool<MapObject> MapObjectPool;
     public IObjectPool<GameObject> StructureOnStartMapObjectPool;
     public IObjectPool<GameObject> ColliderPool;
-
-    [SerializeField]
-    private List<StructureTier> structureTiers;
-    private List<int> structureTierChances = new List<int>();
-    private int structureTierMaxChance;
-    private int structureOffset;
-    public int MinStructureOffset = 10;
-    [SerializeField]
-    private List<MapStructure> structures = new List<MapStructure>();
-    private Dictionary<StructureTier, List<MapStructure>> structuresGroupedByTier = new Dictionary<StructureTier, List<MapStructure>>();
-    [SerializeField]
-    private List<MapStructure> effectStructures = new List<MapStructure>();
-    private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
-    private float lastStructureZ = 0.0f;
-    private float customGroundZ = 0.0f;
-
-    private float timer = 0.0f;
-    private float currentTimer = 0.0f;
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        GroundColliderPool = new ObjectPool<GameObject>(OnCreateGroundCollider, OnGetGroundCollider, OnReturnedGroundCollider, OnDestroyGroundCollider);
-        MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
-        MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
-        StructureOnStartMapObjectPool = new ObjectPool<GameObject>(
-            OnCreateStructureOnStartMapObject,
-            OnGetStructureOnStartMapObject,
-            OnReturnedStructureOnStartMapObject,
-            OnDestroyStructureOnStartMapObject);
-        ColliderPool = new ObjectPool<GameObject>(
-            OnCreateCollider,
-            OnGetCollider,
-            OnReturnedCollider,
-            OnDestroyCollider);
-
-        structureOffset = MinStructureOffset;
-
-        for (int i = 0; i < StartLength; i++)
-        {
-            GenerateRow(false);
-        }
-
-        Z = StartLength;
-
-        currentGroundCollider = GroundColliderPool.Get();
-
-        currentGroundCollider.transform.position = new Vector3(
-            GeneratePosition.x + 2.0f,
-            GeneratePosition.y,
-            StartLength / 2.0f);
-
-        currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, StartLength + 1.0f);
-
-        InitStructureTiers();
-
-        foreach (MapStructure mapStructure in structures)
-        {
-            structuresGroupedByTier[mapStructure.Tier].Add(mapStructure);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (currentTimer > timer)
-        {
-            if (Z - playerController.transform.position.z < StartLength)
-            {
-                for(int i = 0; i < rowsSpawn; i++)
-                {
-                    GenerateRow();
-                }
-            }
-
-            currentTimer = 0.0f;
-        }
-
-        currentTimer += Time.fixedDeltaTime;
-    }
-
-    public void SetGeneratingrowTimer(float playerSpeed)
-    {
-        timer = 1 / (playerSpeed + StartLength);
-
-        if(playerSpeed >= 20.0f)
-        {
-            rowsSpawn = Mathf.CeilToInt(playerSpeed * 0.75f);
-        }
-    }
-
-    public void GenerateRow(bool animate = true)
-    {
-        Z++;
-
-        if (Z > StartLength)
-        {
-            if (Z - lastStructureZ > structureOffset)
-            {
-                if (Z - lastChangeGeneratePositionZ > 10.0f)
-                {
-                    if (Z - lastStructureZ >= 0.0f)
-                    {
-                        float expendGroundColiderValue = Z - currentGroundCollider.transform.position.z - currentGroundCollider.GetComponent<BoxCollider>().size.z / 2.0f - 0.5f;
-
-                        currentGroundCollider.transform.position = new Vector3(
-                            GeneratePosition.x + 2.0f,
-                            GeneratePosition.y,
-                            currentGroundCollider.transform.position.z + expendGroundColiderValue / 2.0f);
-
-                        currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(
-                            GroundSize.x,
-                            1.0f,
-                            currentGroundCollider.GetComponent<BoxCollider>().size.z + expendGroundColiderValue);
-                    }
-
-                    GenerateDirection();
-                }
-
-                if (Z - lastGroundJumpZ > 2.0f && Random.Range(0, 100) > 80)
-                {
-                    GenerateStructure();
-                }
-            }
-        }
-
-        if (customGroundZ <= Z)
-        {
-            GenerateGround(animate);
-        }
-
-        for (int i = 0; i < structuresToGenerate.Count; i++)
-        {
-            structuresToGenerate[i].Generate();
-        }
-    }
 
     #region Pools
     private GameObject OnCreateGroundCollider()
@@ -316,56 +174,87 @@ public class WorldGenerator : MonoBehaviour
     }
     #endregion
 
-    public void RemoveStructureToGenerate(StructureToGenerate structureToGenerate)
-    {
-        structuresToGenerate.Remove(structureToGenerate);
-    }
+    private int structureOffset;
+    public int MinStructureOffset = 10;
+    private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
+    private float lastStructureZ = 0.0f;
+    private float customGroundZ = 0.0f;
 
-    private void InitStructureTiers()
-    {
-        HashSet<int> structureTierIds = new HashSet<int>();
+    private float timer = 0.0f;
+    private float currentTimer = 0.0f;
 
-        foreach (StructureTier structureTier in structureTiers)
+    private void Awake()
+    {
+        if (instance != null && instance != this)
         {
-            structuresGroupedByTier[structureTier] = new List<MapStructure>();
-            structureTierMaxChance += structureTier.Chance;
-
-            if (!structureTierIds.Add(structureTier.OrderId))
-            {
-                Debug.LogError($"Structure tier's order id is not unique. (StructureTier name: {structureTier.Name})");
-            }
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
         }
 
-        structureTiers = structureTiers
-            .OrderBy(x => x.OrderId)
-            .ToList();
+        GroundColliderPool = new ObjectPool<GameObject>(OnCreateGroundCollider, OnGetGroundCollider, OnReturnedGroundCollider, OnDestroyGroundCollider);
+        MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
+        MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
+        StructureOnStartMapObjectPool = new ObjectPool<GameObject>(
+            OnCreateStructureOnStartMapObject,
+            OnGetStructureOnStartMapObject,
+            OnReturnedStructureOnStartMapObject,
+            OnDestroyStructureOnStartMapObject);
+        ColliderPool = new ObjectPool<GameObject>(
+            OnCreateCollider,
+            OnGetCollider,
+            OnReturnedCollider,
+            OnDestroyCollider);
 
-        RefreshStructureTierChances();
+        structureManager = StructureManager.Instance;
     }
 
-    private void RefreshStructureTierChances()
+    private void Start()
     {
-        structureTierChances.Clear();
+        structureOffset = MinStructureOffset;
 
-        for (int i = 0; i < structureTiers.Count; i++)
+        for (int i = 0; i < StartLength; i++)
         {
-            structureTierChances.Add(structureTiers[i].Chance);
+            GenerateRow(false);
+        }
 
-            if (i > 0)
+        Z = StartLength;
+
+        currentGroundCollider = GroundColliderPool.Get();
+
+        currentGroundCollider.transform.position = new Vector3(
+            GeneratePosition.x + 2.0f,
+            GeneratePosition.y,
+            StartLength / 2.0f);
+
+        currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, StartLength + 1.0f);
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentTimer > timer)
+        {
+            if (Z - playerController.transform.position.z < StartLength)
             {
-                for (int j = i - 1; j >= 0; j--)
+                for(int i = 0; i < rowsSpawn; i++)
                 {
-                    structureTierChances[i] += structureTiers[j].Chance;
+                    GenerateRow();
                 }
             }
+
+            currentTimer = 0.0f;
         }
+
+        currentTimer += Time.fixedDeltaTime;
     }
 
     private void GenerateDirection()
     {
         int randLength = Random.Range(5, 30) + 10;
 
-        if (Random.Range(0, 100) > 10)
+        if (Random.Range(0, 100) > jumpGroundChance)
         {
             if (Random.Range(0, 100) <= 50)
             {
@@ -394,30 +283,26 @@ public class WorldGenerator : MonoBehaviour
         currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, randLength + 1.0f);
     }
 
+    private void GenerateGround(bool animate)
+    {
+        MapRow mapRow = MapRowPool.Get();
+
+        mapRow.transform.position = new Vector3(GeneratePosition.x, GeneratePosition.y, Z);
+        mapRow.Initialize(animate);
+    }
+
     private void GenerateStructure()
     {
         int structureTypeChance = Random.Range(0, 100);
         MapStructure structure;
 
-        if (structureTypeChance <= 98)
+        if (structureTypeChance > effectStructureChance)
         {
-            int structureTierChance = Random.Range(0, structureTierMaxChance);
-            StructureTier randStuctureTier = structureTiers[0];
-
-            for(int i = 1; i < structureTierChances.Count; i++)
-            {
-                if(structureTierChance > structureTierChances[i - 1] && structureTierChance <= structureTierChances[i])
-                {
-                    randStuctureTier = structureTiers[i];
-                    break;
-                }
-            }
-
-            structure = structuresGroupedByTier[randStuctureTier][Random.Range(0, structuresGroupedByTier[randStuctureTier].Count)];
+            structure = structureManager.GetRandomMapStructure();
         }
         else
         {
-            structure = effectStructures[Random.Range(0, effectStructures.Count)];
+            structure = structureManager.GetRandomEffectStructure();
         }
 
         StructureToGenerate structureToGenerate = new StructureToGenerate(instance, structure);
@@ -432,11 +317,64 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGround(bool animate)
+    public void SetGeneratingRowTimer(float playerSpeed)
     {
-        MapRow mapRow = MapRowPool.Get();
+        timer = 1 / (playerSpeed + StartLength);
 
-        mapRow.transform.position = new Vector3(GeneratePosition.x, GeneratePosition.y, Z);
-        mapRow.Initialize(animate);
+        if(playerSpeed >= 20.0f)
+        {
+            rowsSpawn = Mathf.CeilToInt(playerSpeed * 0.75f);
+        }
+    }
+
+    public void GenerateRow(bool animate = true)
+    {
+        Z++;
+
+        if (Z > StartLength)
+        {
+            if (Z - lastStructureZ > structureOffset)
+            {
+                if (Z - lastChangeGeneratePositionZ > 10.0f)
+                {
+                    if (Z - lastStructureZ >= 0.0f)
+                    {
+                        float expendGroundColiderValue = Z - currentGroundCollider.transform.position.z - currentGroundCollider.GetComponent<BoxCollider>().size.z / 2.0f - 0.5f;
+
+                        currentGroundCollider.transform.position = new Vector3(
+                            GeneratePosition.x + 2.0f,
+                            GeneratePosition.y,
+                            currentGroundCollider.transform.position.z + expendGroundColiderValue / 2.0f);
+
+                        currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(
+                            GroundSize.x,
+                            1.0f,
+                            currentGroundCollider.GetComponent<BoxCollider>().size.z + expendGroundColiderValue);
+                    }
+
+                    GenerateDirection();
+                }
+
+                if (Z - lastGroundJumpZ > 2.0f && Random.Range(0, 100) > 80)
+                {
+                    GenerateStructure();
+                }
+            }
+        }
+
+        if (customGroundZ <= Z)
+        {
+            GenerateGround(animate);
+        }
+
+        for (int i = 0; i < structuresToGenerate.Count; i++)
+        {
+            structuresToGenerate[i].Generate();
+        }
+    }
+
+    public void RemoveStructureToGenerate(StructureToGenerate structureToGenerate)
+    {
+        structuresToGenerate.Remove(structureToGenerate);
     }
 }

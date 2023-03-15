@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
         set 
         { 
             playerSpeed = value;
-            worldGenerator.SetGeneratingrowTimer(playerSpeed);
+            worldGenerator.SetGeneratingRowTimer(playerSpeed);
         } 
     }
     [SerializeField]

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3970452745530261405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4644469645017224626}
+  - component: {fileID: 1817796348027595336}
+  m_Layer: 0
+  m_Name: StructureManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4644469645017224626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970452745530261405}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1817796348027595336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970452745530261405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30f7021633793149a876e383fbf58cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  structureTiers:
+  - {fileID: 11400000, guid: 2e10f2b2ecb3c8c4eadff4d45e0362fd, type: 2}
+  - {fileID: 11400000, guid: fc811daf48fc3494fa061208e39375a4, type: 2}
+  - {fileID: 11400000, guid: db3c86cb8e1b8fe488d1665c1cc8218e, type: 2}
+  structures:
+  - {fileID: 11400000, guid: 427953e428fab674f8d64c851e00731e, type: 2}
+  - {fileID: 11400000, guid: 58753fe1e3bd9a34f961219821cca8b0, type: 2}
+  - {fileID: 11400000, guid: 4d257007e8abb8d47a74f39ad024a18f, type: 2}
+  - {fileID: 11400000, guid: 99aa69022b377d145983fe96dc731b7f, type: 2}
+  - {fileID: 11400000, guid: 00c69f626531a6447bcf38f58253bea2, type: 2}
+  - {fileID: 11400000, guid: 51e5a14b2ef69af49987ef1854602a14, type: 2}
+  - {fileID: 11400000, guid: 4927a5c85efdd024d84de968caec0a30, type: 2}
+  - {fileID: 11400000, guid: 0f5178c2571a4064592098ce063376bd, type: 2}
+  effectStructures:
+  - {fileID: 11400000, guid: b664121fe5a76134380bb57e339b4e32, type: 2}
+  - {fileID: 11400000, guid: 848a146bbb3577946900f16727f461d4, type: 2}
+  - {fileID: 11400000, guid: 4a5fb57759cae5947b4c3a88b8ddd910, type: 2}

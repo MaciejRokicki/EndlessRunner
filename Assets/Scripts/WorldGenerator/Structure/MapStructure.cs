@@ -73,6 +73,11 @@ public class MapStructure : ScriptableObject
     [HideInInspector]
     public List<List<Transform>> ObjectRows;
 
+    private void OnEnable()
+    {
+        Structure = structure;
+    }
+
     private void OnValidate()
     {
         Structure = structure;

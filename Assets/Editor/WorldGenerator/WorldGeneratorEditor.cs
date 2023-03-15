@@ -15,21 +15,18 @@ public class WorldGeneratorEditor : Editor
     private SerializedProperty mapObjectContainer;
     private SerializedProperty colliderContainer;
 
-    private bool settingsFoldout;
+    private bool settingsFoldout = true;
     private SerializedProperty startLength;
     private SerializedProperty groundSize;
     private SerializedProperty heightOffset;
     private SerializedProperty maxGroundHeight;
     private SerializedProperty z;
     private SerializedProperty generatePosition;
-
-    private bool structuresFoldout;
+    private SerializedProperty jumpGroundChance;
+    private SerializedProperty effectStructureChance;
     private SerializedProperty minStructureOffset;
-    private SerializedProperty structureTiers;
-    private SerializedProperty structures;
-    private SerializedProperty effectStructures;
 
-    void OnEnable()
+    private void OnEnable()
     {
         groundColliderPrefab = serializedObject.FindProperty("groundColliderPrefab");
         rowPrefab = serializedObject.FindProperty("rowPrefab");
@@ -47,11 +44,9 @@ public class WorldGeneratorEditor : Editor
         maxGroundHeight = serializedObject.FindProperty("MaxGroundHeight");
         z = serializedObject.FindProperty("Z");
         generatePosition = serializedObject.FindProperty("GeneratePosition");
-
+        jumpGroundChance = serializedObject.FindProperty("jumpGroundChance");
+        effectStructureChance = serializedObject.FindProperty("effectStructureChance");
         minStructureOffset = serializedObject.FindProperty("MinStructureOffset");
-        structureTiers = serializedObject.FindProperty("structureTiers");
-        structures = serializedObject.FindProperty("structures");
-        effectStructures = serializedObject.FindProperty("effectStructures");
     }
 
     public override void OnInspectorGUI()
@@ -90,17 +85,9 @@ public class WorldGeneratorEditor : Editor
             EditorGUILayout.PropertyField(maxGroundHeight);
             EditorGUILayout.PropertyField(z);
             EditorGUILayout.PropertyField(generatePosition);
-
-            structuresFoldout = EditorGUILayout.Foldout(structuresFoldout, "Structures");
-            if (structuresFoldout)
-            {
-                EditorGUI.indentLevel = 2;
-                EditorGUILayout.PropertyField(minStructureOffset);
-                EditorGUILayout.PropertyField(structureTiers);
-                EditorGUILayout.PropertyField(structures);
-                EditorGUILayout.PropertyField(effectStructures);
-                EditorGUI.indentLevel = 1;
-            }
+            EditorGUILayout.PropertyField(jumpGroundChance);
+            EditorGUILayout.PropertyField(effectStructureChance);
+            EditorGUILayout.PropertyField(minStructureOffset);
             EditorGUI.indentLevel = 0;
         }
 
