@@ -49,7 +49,7 @@ public class StructureToGenerate
         {
             if (currentRowId == 0)
             {
-                foreach(Transform baseCollider in mapStructure.Colliders)
+                foreach (Transform baseCollider in mapStructure.Colliders)
                 {
                     GameObject collider = worldGenerator.ColliderPool.Get();
                     colliders.Add(collider);
@@ -58,6 +58,13 @@ public class StructureToGenerate
                        structureGroundSpawnPosition.x + baseCollider.position.x,
                        structureGroundSpawnPosition.y + baseCollider.position.y + 1.0f,
                        zTmp + baseCollider.position.z);
+
+                    StructureTrigger baseStructureTrigger = baseCollider.GetComponent<StructureTrigger>();
+                    StructureTrigger structureTrigger = collider.GetComponent<StructureTrigger>();
+
+                    structureTrigger.StrategyType = baseStructureTrigger.StrategyType;
+                    structureTrigger.SetStrategyType(structureTrigger.StrategyType);
+                    structureTrigger.MovementSpeed = baseStructureTrigger.MovementSpeed;
 
                     BoxCollider baseBoxCollider = baseCollider.GetComponent<BoxCollider>();
                     BoxCollider boxCollider = collider.GetComponent<BoxCollider>();
@@ -78,8 +85,22 @@ public class StructureToGenerate
                     structureGroundSpawnPosition.y - 4.0f,
                     zTmp + structureObject.position.z);
 
-                mapObject.BaseHeight = structureGroundSpawnPosition.y + structureObject.position.y + 1;
+                float y = structureGroundSpawnPosition.y + structureObject.position.y + 1;
+
+                if (mapStructure.CustomGround)
+                {
+                    y += worldGenerator.GroundSize.y *
+                        Mathf.PerlinNoise(UnityEngine.Random.Range(-1.0f, 1.0f), UnityEngine.Random.Range(-1.0f, 1.0f));
+                }
+
+                if (worldGenerator.MaxGroundHeight < y)
+                {
+                    worldGenerator.MaxGroundHeight = y;
+                }
+
+                mapObject.BaseHeight = y;
                 mapObject.RoundHeightToInt = structureObject.GetComponent<MapObject>().RoundHeightToInt;
+                mapObject.transform.localScale = new Vector3(0.9999f, 0.9999f, 0.9999f);
             }
 
             currentRowId++;

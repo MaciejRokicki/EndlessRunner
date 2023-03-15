@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: Wall_0002
   m_EditorClassIdentifier: 
+  Tier: {fileID: 11400000, guid: db3c86cb8e1b8fe488d1665c1cc8218e, type: 2}
   structure: {fileID: 914153043730483711, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}
   RandomizePosition: 1
-  Size: {x: 3, y: 1, z: 5}
+  CustomGround: 0
+  Size: {x: 3, y: 2, z: 5}
   Colliders:
   - {fileID: 5078301229833607461, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}
   - {fileID: 3025819798733695609, guid: 84e07782eb9fda34dacadf5d3d5c4339, type: 3}

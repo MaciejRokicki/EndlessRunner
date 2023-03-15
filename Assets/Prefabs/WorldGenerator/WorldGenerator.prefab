@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7273182045274773950
 MonoBehaviour:
@@ -58,6 +58,11 @@ MonoBehaviour:
   MaxGroundHeight: 0
   Z: 0
   GeneratePosition: {x: 0, y: 0}
+  structureTiers:
+  - {fileID: 11400000, guid: 2e10f2b2ecb3c8c4eadff4d45e0362fd, type: 2}
+  - {fileID: 11400000, guid: fc811daf48fc3494fa061208e39375a4, type: 2}
+  - {fileID: 11400000, guid: db3c86cb8e1b8fe488d1665c1cc8218e, type: 2}
+  structureTierChances: 
+  MinStructureOffset: 5
   structures: []
-  structuresToGenerate: []
-  MinStructureOffset: 10
+  effectStructures: []

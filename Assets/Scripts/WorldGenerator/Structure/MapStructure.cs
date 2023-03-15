@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ScriptableObjects", menuName = "WorldGenerator/MapStructure")]
 public class MapStructure : ScriptableObject
 {
+    public StructureTier Tier;
     [SerializeField]
     protected Transform structure;
     public Transform Structure
@@ -66,6 +66,7 @@ public class MapStructure : ScriptableObject
         }
     }
     public bool RandomizePosition = true;
+    public bool CustomGround = false;
     public Vector3 Size;
     [HideInInspector]
     public List<Transform> Colliders;

@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
         get { return playerSpeed; } 
         set 
         { 
-            playerSpeed = value; 
-            timer = 1 / playerSpeed;
+            playerSpeed = value;
+            worldGenerator.SetGeneratingRowTimer(playerSpeed);
         } 
     }
     [SerializeField]
@@ -26,9 +26,6 @@ public class PlayerController : MonoBehaviour
     private float gravityValue = -9.81f;
     [SerializeField]
     private float cameraSpeed = 250.0f;
-
-    private float timer = 0.0f;
-    private float currentTimer = 0.0f;
 
     private Vector3 lastPosition;
     //TODO: przeniesc do GameManager'a
@@ -38,7 +35,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
         worldGenerator = WorldGenerator.Instance;
 
         lastPosition = transform.position;
@@ -48,7 +44,6 @@ public class PlayerController : MonoBehaviour
     {
         RotateCharacter();
         MoveCharacter();
-        GenerateMap();
 
         //TODO: przeniesc do GameManager'a
         if(lastPosition.z + 0.1f > transform.position.z)
@@ -97,20 +92,5 @@ public class PlayerController : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-    }
-
-    private void GenerateMap()
-    {
-        if(currentTimer > timer)
-        {
-            if (worldGenerator.Z - transform.position.z < worldGenerator.StartLength)
-            {
-                worldGenerator.GenerateRow();
-            }
-
-            currentTimer = 0.0f;
-        }
-
-        currentTimer += Time.deltaTime;
     }
 }
