@@ -41,5 +41,6 @@ public class GameManager : MonoBehaviour
             .GetComponent<PlayerController>();
 
         worldGenerator.PlayerController = playerController;
+        worldGenerator.SetGeneratingrowTimer(playerController.PlayerSpeed);
     }
 }

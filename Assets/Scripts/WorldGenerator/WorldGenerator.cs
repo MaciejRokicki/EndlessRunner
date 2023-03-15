@@ -42,6 +42,7 @@ public class WorldGenerator : MonoBehaviour
     public float Z = 0;
     public Vector2 GeneratePosition;
     private float lastChangeGeneratePositionZ = 0.0f;
+    private float lastGroundJumpZ = 0.0f;
 
     private GameObject currentGroundCollider;
 
@@ -61,6 +62,9 @@ public class WorldGenerator : MonoBehaviour
     private float lastStructureZ = 0.0f;
     private float customGroundZ = 0.0f;
 
+    private float timer = 0.0f;
+    private float currentTimer = 0.0f;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -79,9 +83,9 @@ public class WorldGenerator : MonoBehaviour
         MapRowPool = new ObjectPool<MapRow>(OnCreateMapRow, OnGetMapRow, OnReturnedMapRow, OnDestroyMapRow);
         MapObjectPool = new ObjectPool<MapObject>(OnCreateMapObject, OnGetMapObject, OnReturnedMapObject, OnDestroyMapObject);
         StructureOnStartMapObjectPool = new ObjectPool<GameObject>(
-            OnCreateStructureOnStartMapObject, 
-            OnGetStructureOnStartMapObject, 
-            OnReturnedStructureOnStartMapObject, 
+            OnCreateStructureOnStartMapObject,
+            OnGetStructureOnStartMapObject,
+            OnReturnedStructureOnStartMapObject,
             OnDestroyStructureOnStartMapObject);
         ColliderPool = new ObjectPool<GameObject>(
             OnCreateCollider,
@@ -101,11 +105,31 @@ public class WorldGenerator : MonoBehaviour
         currentGroundCollider = GroundColliderPool.Get();
 
         currentGroundCollider.transform.position = new Vector3(
-            GeneratePosition.x + 2.0f, 
-            GeneratePosition.y, 
+            GeneratePosition.x + 2.0f,
+            GeneratePosition.y,
             StartLength / 2.0f);
 
         currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, StartLength + 1.0f);
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentTimer > timer)
+        {
+            if (Z - playerController.transform.position.z < StartLength)
+            {
+                GenerateRow();
+            }
+
+            currentTimer = 0.0f;
+        }
+
+        currentTimer += Time.fixedDeltaTime;
+    }
+
+    public void SetGeneratingrowTimer(float playerSpeed)
+    {
+        timer = 1 / (playerSpeed + StartLength);
     }
 
     public void GenerateRow(bool animate = true)
@@ -118,17 +142,32 @@ public class WorldGenerator : MonoBehaviour
             {
                 if (Z - lastChangeGeneratePositionZ > 10.0f)
                 {
+                    if (Z - lastStructureZ >= 0.0f)
+                    {
+                        float expendGroundColiderValue = Z - currentGroundCollider.transform.position.z - currentGroundCollider.GetComponent<BoxCollider>().size.z / 2.0f - 0.5f;
+
+                        currentGroundCollider.transform.position = new Vector3(
+                            GeneratePosition.x + 2.0f,
+                            GeneratePosition.y,
+                            currentGroundCollider.transform.position.z + expendGroundColiderValue / 2.0f);
+
+                        currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(
+                            GroundSize.x,
+                            1.0f,
+                            currentGroundCollider.GetComponent<BoxCollider>().size.z + expendGroundColiderValue);
+                    }
+
                     GenerateDirection();
                 }
 
-                if (Random.Range(0, 100) > 80)
+                if (Z - lastGroundJumpZ > 2.0f && Random.Range(0, 100) > 80)
                 {
                     GenerateStructure();
                 }
             }
         }
 
-        if(customGroundZ <= Z)
+        if (customGroundZ <= Z)
         {
             GenerateGround(animate);
         }
@@ -139,7 +178,7 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-#region Pools
+    #region Pools
     private GameObject OnCreateGroundCollider()
     {
         GameObject groundCollider = Instantiate(groundColliderPrefab, Vector3.zero, Quaternion.identity, this.groundColliderContainer.transform);
@@ -263,7 +302,7 @@ public class WorldGenerator : MonoBehaviour
     {
         int randLength = Random.Range(5, 30) + 10;
 
-        if(Random.Range(0, 100) > 10)
+        if (Random.Range(0, 100) > 10)
         {
             if (Random.Range(0, 100) <= 50)
             {
@@ -277,9 +316,11 @@ public class WorldGenerator : MonoBehaviour
         else
         {
             GeneratePosition.x += Random.Range(0, 100) <= 50 ? -(GroundSize.x + 4.0f) : GroundSize.x + 4.0f;
+            lastGroundJumpZ = Z;
         }
 
         lastChangeGeneratePositionZ = Z + randLength - 10.0f;
+
         currentGroundCollider = GroundColliderPool.Get();
 
         currentGroundCollider.transform.position = new Vector3(
@@ -310,7 +351,7 @@ public class WorldGenerator : MonoBehaviour
         structureOffset = Random.Range(MinStructureOffset, MinStructureOffset + 2);
         lastStructureZ = Z + structure.Size.z;
 
-        if(structure.CustomGround)
+        if (structure.CustomGround)
         {
             customGroundZ = Z + structure.Size.z;
         }
