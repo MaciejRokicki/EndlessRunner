@@ -264,13 +264,20 @@ public class WorldGenerator : MonoBehaviour
     {
         int randLength = Random.Range(5, 30) + 10;
 
-        if (Random.Range(0, 100) <= 50)
+        if(Random.Range(0, 100) > 10)
         {
-            GeneratePosition.x += Random.Range(0, 100) <= 50 ? -1.0f : 1.0f;
+            if (Random.Range(0, 100) <= 50)
+            {
+                GeneratePosition.x += Random.Range(0, 100) <= 50 ? -1.0f : 1.0f;
+            }
+            else
+            {
+                GeneratePosition.y += Random.Range(0, 100) <= 50 ? -0.75f : 0.75f;
+            }
         }
         else
         {
-            GeneratePosition.y += Random.Range(0, 100) <= 50 ? -0.75f : 0.75f;
+            GeneratePosition.x += Random.Range(0, 100) <= 50 ? -(GroundSize.x + 4.0f) : GroundSize.x + 4.0f;
         }
 
         lastChangeGeneratePositionZ = Z + randLength - 10.0f;
