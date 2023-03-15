@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: EasyStructureTier
   m_EditorClassIdentifier: 
   OrderId: 0
-  Name: 
-  Chance: 0
+  Name: Easy
+  chance: 60
+  Chance: 60

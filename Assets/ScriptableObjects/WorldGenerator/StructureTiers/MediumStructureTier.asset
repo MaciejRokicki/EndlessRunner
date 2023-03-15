@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30136487b58651949a7980487bd517af, type: 3}
   m_Name: MediumStructureTier
   m_EditorClassIdentifier: 
-  OrderId: 0
-  Name: 
-  Chance: 0
+  OrderId: 1
+  Name: Medium
+  chance: 30
+  Chance: 30

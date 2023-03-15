@@ -36,6 +36,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField]
     private GameObject colliderContainer;
 
+    private int rowsSpawn = 1;
     public int StartLength = 25;
     public Vector2 GroundSize = new Vector2(5.0f, 1.0f);
     public float HeightOffset = 5.0f;
@@ -132,7 +133,10 @@ public class WorldGenerator : MonoBehaviour
         {
             if (Z - playerController.transform.position.z < StartLength)
             {
-                GenerateRow();
+                for(int i = 0; i < rowsSpawn; i++)
+                {
+                    GenerateRow();
+                }
             }
 
             currentTimer = 0.0f;
@@ -144,6 +148,11 @@ public class WorldGenerator : MonoBehaviour
     public void SetGeneratingrowTimer(float playerSpeed)
     {
         timer = 1 / (playerSpeed + StartLength);
+
+        if(playerSpeed >= 20.0f)
+        {
+            rowsSpawn = Mathf.CeilToInt(playerSpeed * 0.75f);
+        }
     }
 
     public void GenerateRow(bool animate = true)
@@ -323,7 +332,7 @@ public class WorldGenerator : MonoBehaviour
 
             if (!structureTierIds.Add(structureTier.OrderId))
             {
-                Debug.LogError("Structure tier's order id is not unique.");
+                Debug.LogError($"Structure tier's order id is not unique. (StructureTier name: {structureTier.Name})");
             }
         }
 

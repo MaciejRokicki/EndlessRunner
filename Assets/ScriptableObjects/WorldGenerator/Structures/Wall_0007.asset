@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895057336d1470743b54d6282edde228, type: 3}
   m_Name: Wall_0007
   m_EditorClassIdentifier: 
-  Tier: 2
+  Tier: {fileID: 11400000, guid: fc811daf48fc3494fa061208e39375a4, type: 2}
   structure: {fileID: 914153043730483711, guid: 9c5328b0054a76c4a9a6e03a166ffabd, type: 3}
   RandomizePosition: 0
   CustomGround: 0
