@@ -55,7 +55,6 @@ public class WorldGenerator : MonoBehaviour
     private List<MapStructure> structures = new List<MapStructure>();
     [SerializeField]
     private List<MapStructure> effectStructures = new List<MapStructure>();
-    [SerializeField]
     private List<StructureToGenerate> structuresToGenerate = new List<StructureToGenerate>();
     private int structureOffset;
     public int MinStructureOffset = 10;
@@ -115,13 +114,13 @@ public class WorldGenerator : MonoBehaviour
 
         if (Z > StartLength)
         {
-            if (Z - lastChangeGeneratePositionZ > 10.0f)
-            {
-                GenerateDirection();
-            }
-
             if (Z - lastStructureZ > structureOffset)
             {
+                if (Z - lastChangeGeneratePositionZ > 10.0f)
+                {
+                    GenerateDirection();
+                }
+
                 if (Random.Range(0, 100) > 80)
                 {
                     GenerateStructure();

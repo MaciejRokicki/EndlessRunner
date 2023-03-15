@@ -497,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 1322632987}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structures.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structureMapGameObject
@@ -542,7 +542,7 @@ PrefabInstance:
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structures.Array.data[7]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 0f5178c2571a4064592098ce063376bd, type: 2}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: effectStructures.Array.size
       value: 3

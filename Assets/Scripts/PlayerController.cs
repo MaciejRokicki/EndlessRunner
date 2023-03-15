@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         worldGenerator = WorldGenerator.Instance;
 
         lastPosition = transform.position;
-        PlayerSpeed = 8.0f;
+        timer = 1 / (playerSpeed + worldGenerator.StartLength);
     }
 
     void Update()
