@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -53,11 +55,9 @@ public class WorldGenerator : MonoBehaviour
     public IObjectPool<GameObject> ColliderPool;
 
     [SerializeField]
-    private int easyStructureTierChance;
-    [SerializeField]
-    private int mediumStructureTierChance;
-    [SerializeField]
-    private int hardStructureTierChance;
+    private List<StructureTier> structureTiers;
+    private List<int> structureTierChances = new List<int>();
+    private int structureTierMaxChance;
     private int structureOffset;
     public int MinStructureOffset = 10;
     [SerializeField]
@@ -118,12 +118,9 @@ public class WorldGenerator : MonoBehaviour
 
         currentGroundCollider.GetComponent<BoxCollider>().size = new Vector3(GroundSize.x, 1.0f, StartLength + 1.0f);
 
-        for(int i = 0; i < System.Enum.GetNames(typeof(StructureTier)).Length; i++)
-        {
-            structuresGroupedByTier[(StructureTier)i] = new List<MapStructure>();
-        }
+        InitStructureTiers();
 
-        foreach(MapStructure mapStructure in structures)
+        foreach (MapStructure mapStructure in structures)
         {
             structuresGroupedByTier[mapStructure.Tier].Add(mapStructure);
         }
@@ -315,6 +312,46 @@ public class WorldGenerator : MonoBehaviour
         structuresToGenerate.Remove(structureToGenerate);
     }
 
+    private void InitStructureTiers()
+    {
+        HashSet<int> structureTierIds = new HashSet<int>();
+
+        foreach (StructureTier structureTier in structureTiers)
+        {
+            structuresGroupedByTier[structureTier] = new List<MapStructure>();
+            structureTierMaxChance += structureTier.Chance;
+
+            if (!structureTierIds.Add(structureTier.OrderId))
+            {
+                Debug.LogError("Structure tier's order id is not unique.");
+            }
+        }
+
+        structureTiers = structureTiers
+            .OrderBy(x => x.OrderId)
+            .ToList();
+
+        RefreshStructureTierChances();
+    }
+
+    private void RefreshStructureTierChances()
+    {
+        structureTierChances.Clear();
+
+        for (int i = 0; i < structureTiers.Count; i++)
+        {
+            structureTierChances.Add(structureTiers[i].Chance);
+
+            if (i > 0)
+            {
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    structureTierChances[i] += structureTiers[j].Chance;
+                }
+            }
+        }
+    }
+
     private void GenerateDirection()
     {
         int randLength = Random.Range(5, 30) + 10;
@@ -355,16 +392,16 @@ public class WorldGenerator : MonoBehaviour
 
         if (structureTypeChance <= 98)
         {
-            int structureTierChance = Random.Range(0, easyStructureTierChance + mediumStructureTierChance + hardStructureTierChance);
-            StructureTier randStuctureTier = StructureTier.Easy;
+            int structureTierChance = Random.Range(0, structureTierMaxChance);
+            StructureTier randStuctureTier = structureTiers[0];
 
-            if (structureTierChance >= easyStructureTierChance && structureTierChance < easyStructureTierChance + mediumStructureTierChance)
+            for(int i = 1; i < structureTierChances.Count; i++)
             {
-                randStuctureTier = StructureTier.Medium;
-            }
-            else if(structureTierChance >= easyStructureTierChance + mediumStructureTierChance && structureTierChance < easyStructureTierChance + mediumStructureTierChance + hardStructureTierChance)
-            {
-                randStuctureTier = StructureTier.Hard;
+                if(structureTierChance > structureTierChances[i - 1] && structureTierChance <= structureTierChances[i])
+                {
+                    randStuctureTier = structureTiers[i];
+                    break;
+                }
             }
 
             structure = structuresGroupedByTier[randStuctureTier][Random.Range(0, structuresGroupedByTier[randStuctureTier].Count)];

@@ -1,6 +1,17 @@
-﻿public enum StructureTier
+﻿using UnityEngine;
+
+[CreateAssetMenu(fileName = "ScriptableObjects", menuName = "WorldGenerator/StructureTier")]
+public class StructureTier : ScriptableObject
 {
-    Easy,
-    Medium,
-    Hard
+    public int OrderId;
+    public string Name;
+    [SerializeField]
+    private int chance;
+    [HideInInspector]
+    public int Chance;
+
+    private void OnEnable()
+    {
+        Chance = chance;
+    }
 }

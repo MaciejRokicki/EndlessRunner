@@ -24,12 +24,10 @@ public class WorldGeneratorEditor : Editor
     private SerializedProperty generatePosition;
 
     private bool structuresFoldout;
-    private SerializedProperty easyStructureTierChance;
-    private SerializedProperty mediumStructureTierChance;
-    private SerializedProperty hardStructureTierChance;
+    private SerializedProperty minStructureOffset;
+    private SerializedProperty structureTiers;
     private SerializedProperty structures;
     private SerializedProperty effectStructures;
-    private SerializedProperty minStructureOffset;
 
     void OnEnable()
     {
@@ -50,12 +48,10 @@ public class WorldGeneratorEditor : Editor
         z = serializedObject.FindProperty("Z");
         generatePosition = serializedObject.FindProperty("GeneratePosition");
 
-        easyStructureTierChance = serializedObject.FindProperty("easyStructureTierChance");
-        mediumStructureTierChance = serializedObject.FindProperty("mediumStructureTierChance");
-        hardStructureTierChance = serializedObject.FindProperty("hardStructureTierChance");
+        minStructureOffset = serializedObject.FindProperty("MinStructureOffset");
+        structureTiers = serializedObject.FindProperty("structureTiers");
         structures = serializedObject.FindProperty("structures");
         effectStructures = serializedObject.FindProperty("effectStructures");
-        minStructureOffset = serializedObject.FindProperty("MinStructureOffset");
     }
 
     public override void OnInspectorGUI()
@@ -99,10 +95,8 @@ public class WorldGeneratorEditor : Editor
             if (structuresFoldout)
             {
                 EditorGUI.indentLevel = 2;
-                EditorGUILayout.PropertyField(easyStructureTierChance);
-                EditorGUILayout.PropertyField(mediumStructureTierChance);
-                EditorGUILayout.PropertyField(hardStructureTierChance);
                 EditorGUILayout.PropertyField(minStructureOffset);
+                EditorGUILayout.PropertyField(structureTiers);
                 EditorGUILayout.PropertyField(structures);
                 EditorGUILayout.PropertyField(effectStructures);
                 EditorGUI.indentLevel = 1;
