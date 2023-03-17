@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class EnvironmentRow : MonoBehaviour
 {
     private GameManager gameManager;
     private EnvironmentManager environmentManager;
 
-    private bool isNextRowSpawned = false;
+    public Vector3? dest = null;
 
     private void Awake()
     {
@@ -13,22 +13,22 @@ public class NewBehaviourScript : MonoBehaviour
         environmentManager = EnvironmentManager.Instance;
     }
 
-    private void OnEnable()
-    {
-        isNextRowSpawned = false;
-    }
-
     private void FixedUpdate()
     {
-        //if(gameManager.PlayerController.transform.position.z > transform.position.z + 2.0f)
-        //{
-        //    environmentManager.environmentRowPool.Release(gameObject);
-        //}
-
-        if (!isNextRowSpawned && gameManager.PlayerController.transform.position.z > transform.position.z + 1.0f)
+        if(dest != null)
         {
+            transform.position += dest.Value * Time.fixedDeltaTime;
+
+            if(transform.position.z > dest.Value.z)
+            {
+                dest = null;
+            }
+        }
+
+        if (gameManager.PlayerController.transform.position.z > transform.position.z + 10.0f)
+        {
+            environmentManager.environmentRowPool.Release(gameObject);
             environmentManager.GenerateNextEnvironmentRow();
-            isNextRowSpawned = true;
         }
     }
 }

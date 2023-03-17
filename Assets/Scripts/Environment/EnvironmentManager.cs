@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,15 +12,20 @@ public class EnvironmentManager : MonoBehaviour
 
     private WorldGenerator worldGenerator;
 
+    [Header("Row generation settings")]
+    [SerializeField]
+    private GameObject environmentObjectPrefab;
     [SerializeField]
     private Transform environmentContainer;
     [SerializeField]
     private GameObject environmentRowPrefab;
-
     [SerializeField]
     private int length;
+    [SerializeField]
+    private int circleIterations;
     private float lastEnvironmentRowZ;
     public IObjectPool<GameObject> environmentRowPool;
+    private List<GameObject> coneEnvironmentRows = new List<GameObject>(); 
 
     #region Pool
     private GameObject OnCreateEnvironmentRow()
@@ -45,6 +51,7 @@ public class EnvironmentManager : MonoBehaviour
     }
     #endregion
 
+    [Header("Environment Object Settings")]
     public float Amplitude = 1.0f;
     public float Frequency = 1.0f;
 
@@ -68,18 +75,73 @@ public class EnvironmentManager : MonoBehaviour
 
     private void Start()
     {
-        for(int i = 0; i < length; i++)
+        float lastConeEnvironmentRowZ = 0.0f;
+        Transform tmp = null;
+
+        int radius = length - 10;
+
+        for (int i = 0; i < length; i++)
         {
-            GenerateNextEnvironmentRow();
+            GameObject environmentRow;
+
+            if(i >= length / 4)
+            {
+                radius = length - i;
+
+                environmentRow = Instantiate(environmentRowPrefab, Vector3.zero, Quaternion.identity, environmentContainer);
+
+                coneEnvironmentRows.Add(environmentRow);
+            }
+            else
+            {
+                environmentRow = environmentRowPool.Get();
+                tmp = environmentRow.transform;
+            }
+
+            environmentRow.transform.position = new Vector3(
+                2.0f + worldGenerator.GeneratePosition.x,
+                worldGenerator.GeneratePosition.y,
+                lastConeEnvironmentRowZ + environmentObjectPrefab.transform.localScale.z
+            );
+
+            lastConeEnvironmentRowZ = environmentRow.transform.position.z;
+
+            for (int j = 0; j < circleIterations; j++)
+            {
+                float progress = (float)j / (circleIterations - 2);
+                float rad = progress * 2.0f * Mathf.PI;
+
+                float x = Mathf.Cos(rad) * radius;
+                float y = Mathf.Sin(rad) * radius;
+
+                Vector3 pos = new Vector3(x, y, i * environmentObjectPrefab.transform.localScale.z);
+
+                Instantiate(environmentObjectPrefab, pos, Quaternion.identity, environmentRow.transform);
+            }
         }
+
+        lastEnvironmentRowZ = tmp.position.z;
     }
 
     public void GenerateNextEnvironmentRow()
     {
+        lastEnvironmentRowZ += environmentObjectPrefab.transform.localScale.z;
+
         GameObject environmentRow = environmentRowPool.Get();
 
-        environmentRow.transform.position = new Vector3(worldGenerator.GeneratePosition.x, worldGenerator.GeneratePosition.y, lastEnvironmentRowZ + 4.0f);
+        environmentRow.transform.position = new Vector3(
+            2.0f + worldGenerator.GeneratePosition.x,
+            worldGenerator.GeneratePosition.y,
+            lastEnvironmentRowZ
+        );
 
-        lastEnvironmentRowZ = environmentRow.transform.position.z;
+        foreach (GameObject coneEnvironmentObject in coneEnvironmentRows)
+        {
+            coneEnvironmentObject.transform.position = new Vector3(
+                2.0f + worldGenerator.GeneratePosition.x,
+                worldGenerator.GeneratePosition.y,
+                coneEnvironmentObject.transform.position.z + environmentObjectPrefab.transform.localScale.z
+            );
+        }
     }
 }

@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9206af97066808d488a8766f6b29eee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Amplitude: 1
+  environmentObjectPrefab: {fileID: 7197340976890804853, guid: 4e6d7a6723fbd8048b677c290f1b8a87, type: 3}
+  environmentContainer: {fileID: 0}
+  environmentRowPrefab: {fileID: 6858109303618111798, guid: eccdf293047446f46b9d9b16a3162d17, type: 3}
+  length: 30
+  circleIterations: 20
+  Amplitude: 3
   Frequency: 3
-  NoiseHeight: 2
+  NoiseHeight: 5

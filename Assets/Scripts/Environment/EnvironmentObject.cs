@@ -36,7 +36,6 @@ public class EnvironmentObject : MonoBehaviour
     private void Start()
     {
         environmentManager = EnvironmentManager.Instance;
-
         EnvironmentObjectType = environmentObjectType;
     }
 

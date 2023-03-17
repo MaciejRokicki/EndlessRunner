@@ -327,17 +327,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7446285587514381335, guid: b67b024406ad01448a89337c7fab7dc8, type: 3}
-      propertyPath: length
-      value: 30
+      propertyPath: radius
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7446285587514381335, guid: b67b024406ad01448a89337c7fab7dc8, type: 3}
       propertyPath: environmentContainer
       value: 
       objectReference: {fileID: 1766567572}
-    - target: {fileID: 7446285587514381335, guid: b67b024406ad01448a89337c7fab7dc8, type: 3}
-      propertyPath: environmentRowPrefab
-      value: 
-      objectReference: {fileID: 6858109303618111798, guid: eccdf293047446f46b9d9b16a3162d17, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -599,6 +595,10 @@ PrefabInstance:
       propertyPath: mapObjectGameObject
       value: 
       objectReference: {fileID: 1322632987}
+    - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
+      propertyPath: effectStructureChance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7273182045274773950, guid: 2b35e0bb609e4f74da17743378b5a71f, type: 3}
       propertyPath: structures.Array.size
       value: 8
