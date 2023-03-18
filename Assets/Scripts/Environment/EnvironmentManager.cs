@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class EnvironmentManager : MonoBehaviour
 {
@@ -23,33 +22,8 @@ public class EnvironmentManager : MonoBehaviour
     private int length;
     [SerializeField]
     private int circleIterations;
-    private float lastEnvironmentRowZ;
-    public IObjectPool<GameObject> environmentRowPool;
-    private List<GameObject> coneEnvironmentRows = new List<GameObject>(); 
-
-    #region Pool
-    private GameObject OnCreateEnvironmentRow()
-    {
-        GameObject environmentRow = Instantiate(environmentRowPrefab, Vector3.zero, Quaternion.identity, environmentContainer);
-
-        return environmentRow;
-    }
-
-    private void OnGetEnvironmentRow(GameObject environmentRow)
-    {
-        environmentRow.gameObject.SetActive(true);
-    }
-
-    private void OnReturnedEnvironmentRow(GameObject environmentRow)
-    {
-        environmentRow.gameObject.SetActive(false);
-    }
-
-    private void OnDestroyEnvironmentRow(GameObject environmentRow)
-    {
-        Destroy(environmentRow);
-    }
-    #endregion
+    private List<GameObject> nonConeEnvironmentRows = new List<GameObject>();
+    private List<GameObject> coneEnvironmentRows = new List<GameObject>();
 
     [Header("Environment Object Settings")]
     public float Amplitude = 1.0f;
@@ -69,33 +43,27 @@ public class EnvironmentManager : MonoBehaviour
         }
 
         worldGenerator = WorldGenerator.Instance;
-
-        environmentRowPool = new ObjectPool<GameObject>(OnCreateEnvironmentRow, OnGetEnvironmentRow, OnReturnedEnvironmentRow, OnDestroyEnvironmentRow);
     }
 
     private void Start()
     {
         float lastConeEnvironmentRowZ = 0.0f;
-        Transform tmp = null;
 
         int radius = length - 10;
 
         for (int i = 0; i < length; i++)
         {
-            GameObject environmentRow;
+            GameObject environmentRow = Instantiate(environmentRowPrefab, Vector3.zero, Quaternion.identity, environmentContainer);
 
-            if(i >= length / 4)
+            if (i >= length / 4)
             {
                 radius = length - i;
-
-                environmentRow = Instantiate(environmentRowPrefab, Vector3.zero, Quaternion.identity, environmentContainer);
 
                 coneEnvironmentRows.Add(environmentRow);
             }
             else
             {
-                environmentRow = environmentRowPool.Get();
-                tmp = environmentRow.transform;
+                nonConeEnvironmentRows.Add(environmentRow);
             }
 
             environmentRow.transform.position = new Vector3(
@@ -119,28 +87,25 @@ public class EnvironmentManager : MonoBehaviour
                 Instantiate(environmentObjectPrefab, pos, Quaternion.identity, environmentRow.transform);
             }
         }
-
-        lastEnvironmentRowZ = tmp.position.z;
     }
 
     public void GenerateNextEnvironmentRow()
     {
-        lastEnvironmentRowZ += environmentObjectPrefab.transform.localScale.z;
-
-        GameObject environmentRow = environmentRowPool.Get();
-
-        environmentRow.transform.position = new Vector3(
-            2.0f + worldGenerator.GeneratePosition.x,
-            worldGenerator.GeneratePosition.y,
-            lastEnvironmentRowZ
-        );
-
-        foreach (GameObject coneEnvironmentObject in coneEnvironmentRows)
+        foreach (GameObject nonConeEnvironmentRow in nonConeEnvironmentRows)
         {
-            coneEnvironmentObject.transform.position = new Vector3(
+            nonConeEnvironmentRow.GetComponent<EnvironmentRow>().destinationPosition = new Vector3(
                 2.0f + worldGenerator.GeneratePosition.x,
                 worldGenerator.GeneratePosition.y,
-                coneEnvironmentObject.transform.position.z + environmentObjectPrefab.transform.localScale.z
+                nonConeEnvironmentRow.transform.position.z + environmentObjectPrefab.transform.localScale.z
+            );
+        }
+
+        foreach (GameObject coneEnvironmentRow in coneEnvironmentRows)
+        {
+            coneEnvironmentRow.GetComponent<EnvironmentRow>().destinationPosition = new Vector3(
+                2.0f + worldGenerator.GeneratePosition.x,
+                worldGenerator.GeneratePosition.y,
+                coneEnvironmentRow.transform.position.z + environmentObjectPrefab.transform.localScale.z
             );
         }
     }

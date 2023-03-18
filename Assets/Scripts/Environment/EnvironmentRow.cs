@@ -5,7 +5,7 @@ public class EnvironmentRow : MonoBehaviour
     private GameManager gameManager;
     private EnvironmentManager environmentManager;
 
-    public Vector3? dest = null;
+    public Vector3? destinationPosition = null;
 
     private void Awake()
     {
@@ -13,21 +13,23 @@ public class EnvironmentRow : MonoBehaviour
         environmentManager = EnvironmentManager.Instance;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if(dest != null)
+        if (destinationPosition != null)
         {
-            transform.position += dest.Value * Time.fixedDeltaTime;
+            transform.position = Vector3.Lerp(transform.position, destinationPosition.Value, Time.deltaTime);
 
-            if(transform.position.z > dest.Value.z)
+            if (transform.position.z > destinationPosition.Value.z)
             {
-                dest = null;
+                destinationPosition = null;
             }
         }
+    }
 
+    private void FixedUpdate()
+    {
         if (gameManager.PlayerController.transform.position.z > transform.position.z + 10.0f)
         {
-            environmentManager.environmentRowPool.Release(gameObject);
             environmentManager.GenerateNextEnvironmentRow();
         }
     }
