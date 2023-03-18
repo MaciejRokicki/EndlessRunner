@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnvironmentManager : MonoBehaviour
 {
+    #region Singletons
     private static EnvironmentManager instance;
     public static EnvironmentManager Instance
     {
@@ -10,6 +11,7 @@ public class EnvironmentManager : MonoBehaviour
     }
 
     private WorldGenerator worldGenerator;
+    #endregion
 
     [Header("Row generation settings")]
     [SerializeField]
@@ -22,13 +24,13 @@ public class EnvironmentManager : MonoBehaviour
     private int length;
     [SerializeField]
     private int circleIterations;
+
     private List<GameObject> nonConeEnvironmentRows = new List<GameObject>();
     private List<GameObject> coneEnvironmentRows = new List<GameObject>();
 
     [Header("Environment Object Settings")]
     public float Amplitude = 1.0f;
     public float Frequency = 1.0f;
-
     public float NoiseHeight = 2.0f;
 
     private void Awake()
@@ -46,9 +48,13 @@ public class EnvironmentManager : MonoBehaviour
     }
 
     private void Start()
-    {
-        float lastConeEnvironmentRowZ = 0.0f;
+    {     
+        GenerateStartEnvironment();
+    }
 
+    private void GenerateStartEnvironment()
+    {
+        float lastEnvironmentRowZ = -environmentObjectPrefab.transform.localScale.z;
         int radius = length - 10;
 
         for (int i = 0; i < length; i++)
@@ -57,7 +63,7 @@ public class EnvironmentManager : MonoBehaviour
 
             if (i >= length / 4)
             {
-                radius = length - i;
+                radius = length - i - 1;
 
                 coneEnvironmentRows.Add(environmentRow);
             }
@@ -69,10 +75,10 @@ public class EnvironmentManager : MonoBehaviour
             environmentRow.transform.position = new Vector3(
                 2.0f + worldGenerator.GeneratePosition.x,
                 worldGenerator.GeneratePosition.y,
-                lastConeEnvironmentRowZ + environmentObjectPrefab.transform.localScale.z
+                lastEnvironmentRowZ + environmentObjectPrefab.transform.localScale.z
             );
 
-            lastConeEnvironmentRowZ = environmentRow.transform.position.z;
+            lastEnvironmentRowZ = environmentRow.transform.position.z;
 
             for (int j = 0; j < circleIterations; j++)
             {

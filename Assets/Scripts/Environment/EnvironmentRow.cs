@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class EnvironmentRow : MonoBehaviour
 {
+    #region Singletons
     private GameManager gameManager;
     private EnvironmentManager environmentManager;
+    #endregion
 
     public Vector3? destinationPosition = null;
 

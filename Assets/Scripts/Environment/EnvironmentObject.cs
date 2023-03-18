@@ -8,9 +8,12 @@ public enum EnvironmentObjectType
 
 public class EnvironmentObject : MonoBehaviour
 {
+    #region Singletons
     private EnvironmentManager environmentManager;
     private EnvironmentObjectStrategy environmentObjectStrategy;
+    #endregion
 
+    [Header("Settings")]
     [SerializeField]
     private EnvironmentObjectType environmentObjectType;
     public EnvironmentObjectType EnvironmentObjectType

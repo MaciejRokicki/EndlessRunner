@@ -4,14 +4,16 @@ using UnityEngine.Pool;
 
 public class WorldGenerator : MonoBehaviour
 {
+    #region Singletons
     private static WorldGenerator instance;
     public static WorldGenerator Instance
     {
         get { return instance; }
     }
-
     private StructureManager structureManager;
+    #endregion
 
+    //References
     private PlayerController playerController;
     public PlayerController PlayerController
     {

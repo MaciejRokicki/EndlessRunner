@@ -327,10 +327,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7446285587514381335, guid: b67b024406ad01448a89337c7fab7dc8, type: 3}
-      propertyPath: radius
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7446285587514381335, guid: b67b024406ad01448a89337c7fab7dc8, type: 3}
       propertyPath: environmentContainer
       value: 
       objectReference: {fileID: 1766567572}
@@ -442,7 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1766567572}
   m_Layer: 0
-  m_Name: Environment
+  m_Name: EnvironmentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class MapRow : MonoBehaviour
 {
+    #region Singletons
     private WorldGenerator worldGenerator;
-    [SerializeField]
+    #endregion
+
     private List<MapObject> rowObjects;
 
     private void Awake()

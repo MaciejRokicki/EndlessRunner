@@ -2,14 +2,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Singletons
     private WorldGenerator worldGenerator;
+    private GameManager gameManager;
 
     private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    #endregion
+
+    //References
+    [Header("References")]
     [SerializeField]
     private Camera playerCamera;
 
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
+
+    //Player settings
+    [Header("Player settings")]
     [SerializeField]
     private float playerSpeed;
     public float PlayerSpeed 
@@ -27,40 +36,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float cameraSpeed = 250.0f;
 
-    private Vector3 lastPosition;
-    //TODO: przeniesc do GameManager'a
-    private float gameOverTimer = 1.0f;
-    private float currentGameOverTimer = 0.0f;
-
-    private void Start()
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();
         worldGenerator = WorldGenerator.Instance;
+        gameManager = GameManager.Instance;
+    }
 
-        lastPosition = transform.position;
+    private void Start()
+    {
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 
     void Update()
     {
-        RotateCharacter();
-        MoveCharacter();
-
-        //TODO: przeniesc do GameManager'a
-        if(lastPosition.z + 0.1f > transform.position.z)
+        if(!gameManager.Pause)
         {
-            currentGameOverTimer += Time.deltaTime;
-
-            if(currentGameOverTimer > gameOverTimer)
-            {
-                Debug.Log("Game Over");
-            }
+            RotateCharacter();
+            MoveCharacter();
         }
-        else
-        {
-            currentGameOverTimer = 0.0f;
-        }
-
-        lastPosition = transform.position;
     }
 
     private void RotateCharacter()

@@ -20,6 +20,7 @@ public class MapObject : MonoBehaviour
         set { mapObjectStrategy = value; }
     }
 
+    [Header("Settings")]
     [HideInInspector]
     public float step;
     public bool RoundHeightToInt = false;

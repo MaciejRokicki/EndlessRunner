@@ -8,12 +8,15 @@ public enum StructureTriggerStrategyType
 
 public class StructureTrigger : MonoBehaviour
 {
+    #region Singletons
     private GameManager gameManager;
+    #endregion
+
+    //References
     private PlayerController playerController;
 
     private StructureTriggerStrategy triggerStrategy;
     public StructureTriggerStrategyType StrategyType;
-
     public float MovementSpeed = 0.0f;
 
     private void Awake()

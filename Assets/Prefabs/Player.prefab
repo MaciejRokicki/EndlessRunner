@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 7389362583158667949}
-  playerSpeed: 8
+  playerSpeed: 0
   jumpHeight: 1.15
   cameraSpeed: 250
 --- !u!1 &7389362583158667951

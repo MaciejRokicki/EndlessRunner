@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class GroundCollider : MonoBehaviour
 {
+    #region Singletons
     private WorldGenerator worldGenerator;
+    #endregion
+
     private BoxCollider boxCollider;
 
     private void Awake()

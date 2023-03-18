@@ -5,7 +5,9 @@ using UnityEngine;
 [Serializable]
 public class StructureToGenerate
 {
+    #region Singletons
     private WorldGenerator worldGenerator;
+    #endregion
 
     [SerializeField]
     private MapStructure mapStructure;

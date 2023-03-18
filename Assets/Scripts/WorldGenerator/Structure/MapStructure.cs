@@ -65,8 +65,12 @@ public class MapStructure : ScriptableObject
             }
         }
     }
+
+    [Header("Settings")]
     public bool RandomizePosition = true;
     public bool CustomGround = false;
+
+    [Header("Info")]
     public Vector3 Size;
     [HideInInspector]
     public List<Transform> Colliders;

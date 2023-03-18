@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
+    #region Singletons
     private static StructureManager instance;
     public static StructureManager Instance
     {
         get { return instance; }
     }
+    #endregion
 
-    public List<StructureTier> structureTiers;
-    private List<int> structureTierChances = new List<int>();
-    private int structureTierMaxChance;
-
+    [Header("Tiers & Structures")]
+    [SerializeField]
+    private List<StructureTier> structureTiers;
     [SerializeField]
     private List<MapStructure> structures = new List<MapStructure>();
-    private Dictionary<StructureTier, List<MapStructure>> structuresGroupedByTier = new Dictionary<StructureTier, List<MapStructure>>();
     [SerializeField]
     private List<MapStructure> effectStructures = new List<MapStructure>();
+
+    private List<int> structureTierChances = new List<int>();
+    private int structureTierMaxChance;
+    private Dictionary<StructureTier, List<MapStructure>> structuresGroupedByTier = new Dictionary<StructureTier, List<MapStructure>>();
 
     private void Awake()
     {
@@ -33,6 +37,17 @@ public class StructureManager : MonoBehaviour
     }
 
     private void Start()
+    {
+        InitStructureTiers();
+        RefreshStructureTierChances();
+
+        foreach (MapStructure mapStructure in structures)
+        {
+            structuresGroupedByTier[mapStructure.Tier].Add(mapStructure);
+        }
+    }
+
+    private void InitStructureTiers()
     {
         HashSet<int> structureTierIds = new HashSet<int>();
 
@@ -50,13 +65,6 @@ public class StructureManager : MonoBehaviour
         structureTiers = structureTiers
             .OrderBy(x => x.OrderId)
             .ToList();
-
-        RefreshStructureTierChances();
-
-        foreach (MapStructure mapStructure in structures)
-        {
-            structuresGroupedByTier[mapStructure.Tier].Add(mapStructure);
-        }
     }
 
     private void RefreshStructureTierChances()
@@ -97,5 +105,18 @@ public class StructureManager : MonoBehaviour
     public MapStructure GetRandomEffectStructure()
     {
         return effectStructures[Random.Range(0, effectStructures.Count)];
+    }
+
+    public void ChangeStructureTierChance(string structureTierName, int chanceToAdd)
+    {
+        StructureTier structureTier = structureTiers
+            .Where(x => x.Name == structureTierName)
+            .FirstOrDefault();
+
+        structureTier.Chance += chanceToAdd;
+
+        structureTier.Chance = structureTier.Chance < 1 ? 1 : structureTier.Chance;
+
+        RefreshStructureTierChances();
     }
 }
