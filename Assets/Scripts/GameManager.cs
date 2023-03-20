@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     private WorldGenerator worldGenerator;
     private StructureManager structureManager;
+    private UIManager uiManager;
     #endregion
 
     //References
@@ -29,14 +30,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float startPlayerSpeed = 8.0f;
 
-    //Pause
-    private bool pressAnyKeyToPlay = true;
-    [HideInInspector]
-    public bool Pause = true;
-
     [Header("Timers")]
     [SerializeField]
     private float gameTimer = 0.0f;
+    public delegate void GameTimerChangeCallback(float time);
+    public event GameTimerChangeCallback OnGameTimerChange;
     [SerializeField]
     private float gameOverTimer = 1.0f;
     private float currentGameOverTimer = 0.0f;
@@ -63,6 +61,8 @@ public class GameManager : MonoBehaviour
 
         worldGenerator = WorldGenerator.Instance;
         structureManager = StructureManager.Instance;
+        uiManager = UIManager.Instance;
+        uiManager.SetGameManager(instance);
     }
 
     private void Start()
@@ -80,22 +80,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!Pause)
+        if (!uiManager.IsPause && !uiManager.IsGameOver)
         {
             TimersHandler();
             CheckGameOver();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (uiManager.PressAnyKeyToPlay && Input.anyKeyDown)
         {
-            Pause = !Pause;
-        }
-
-        if (pressAnyKeyToPlay && Input.anyKeyDown)
-        {
-            pressAnyKeyToPlay = false;
-            Pause = false;
             playerController.PlayerSpeed = startPlayerSpeed;
+            uiManager.TogglePressAnyKey();
+            uiManager.ToggleGameUI();
         }
     }
 
@@ -104,6 +99,8 @@ public class GameManager : MonoBehaviour
         gameTimer += Time.deltaTime;
         currentSpeedUpTimer += Time.deltaTime;
         currentChangeStructureTierChanceTimer += Time.deltaTime;
+
+        OnGameTimerChange(gameTimer);
 
         if (currentSpeedUpTimer > speedUpTimer)
         {
@@ -124,9 +121,9 @@ public class GameManager : MonoBehaviour
         {
             currentGameOverTimer += Time.deltaTime;
 
-            if (currentGameOverTimer > gameOverTimer)
+            if (!uiManager.IsGameOver && currentGameOverTimer > gameOverTimer)
             {
-                GameOver();
+                uiManager.ToggleGameOver();
             }
         }
         else
@@ -135,11 +132,6 @@ public class GameManager : MonoBehaviour
         }
 
         lastPosition = playerController.transform.position;
-    }
-
-    private void GameOver()
-    {
-        Debug.Log("Game Over");
     }
 
     private void SpeedUp()

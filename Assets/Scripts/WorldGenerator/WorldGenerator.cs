@@ -45,6 +45,8 @@ public class WorldGenerator : MonoBehaviour
     [HideInInspector]
     public float MaxGroundHeight = 0.0f;
     public float Z = 0;
+    public delegate void DistanceChangeCallback(float distance);
+    public event DistanceChangeCallback OnDistanceChange;
     public Vector2 GeneratePosition;
     private float lastChangeGeneratePositionZ = 0.0f;
     [SerializeField]
@@ -331,6 +333,7 @@ public class WorldGenerator : MonoBehaviour
 
     public void GenerateRow(bool animate = true)
     {
+        OnDistanceChange(Z - StartLength);
         Z++;
 
         if (Z > StartLength)
