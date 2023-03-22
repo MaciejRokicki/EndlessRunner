@@ -39,9 +39,7 @@ public class GameManager : MonoBehaviour
         {
             pressAnyKeyToPlay = value;  
 
-            isPause = false;
             uiManager.TogglePressAnyKey();
-            uiManager.ToggleGameUI();
         }
     }
     [SerializeField]
@@ -80,21 +78,26 @@ public class GameManager : MonoBehaviour
 
     [Header("Timers")]
     [SerializeField]
+    private bool pressAnyKeyStartTimer = false;
+    [SerializeField]
+    private float pressAnyKeyTimer = 3.0f;
+    private float currentPressAnyKeyTimer = 0.0f;
+    public delegate void PressAnyKeyTimerCallback(float time);
+    public event PressAnyKeyTimerCallback OnPressAnyKeyTimerChange;
     private float gameTimer = 0.0f;
     public delegate void GameTimerChangeCallback(float time);
     public event GameTimerChangeCallback OnGameTimerChange;
     [SerializeField]
-    private float gameOverTimer = 1.0f;
+    public float GameOverTimer = 1.0f;
     private float currentGameOverTimer = 0.0f;
+    public delegate void GameOverTimerChangeCallback(float time);
+    public event GameOverTimerChangeCallback OnGameOverTimerChange;
     [SerializeField]
     private float speedUpTimer = 15.0f;
     private float currentSpeedUpTimer = 0.0f;
     [SerializeField]
     private float changeStructureTierChanceTimer = 60.0f;
     private float currentChangeStructureTierChanceTimer = 0.0f;
-
-     //Other
-    private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -126,27 +129,40 @@ public class GameManager : MonoBehaviour
 
         worldGenerator.PlayerController = playerController;
         worldGenerator.SetGeneratingRowTimer(playerController.PlayerSpeed);
-
-        lastPosition = playerController.transform.position;
     }
 
     private void Update()
     {
+        if(pressAnyKeyStartTimer)
+        {
+            currentPressAnyKeyTimer += Time.deltaTime;
+
+            OnPressAnyKeyTimerChange(Mathf.CeilToInt(pressAnyKeyTimer - currentPressAnyKeyTimer));
+
+            if(currentPressAnyKeyTimer > pressAnyKeyTimer)
+            {
+                playerController.PlayerSpeed = startPlayerSpeed;
+                pressAnyKeyStartTimer = false;
+                isPause = false;
+                uiManager.ToggleGameUI();
+            }
+        }
+
         if (!IsPause && !IsGameOver)
         {
             TimersHandler();
             CheckGameOver();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !IsGameOver && !pressAnyKeyStartTimer)
         {
             IsPause = !IsPause;
         }
 
         if (PressAnyKeyToPlay && Input.anyKeyDown)
         {
-            playerController.PlayerSpeed = startPlayerSpeed;
-
+            pressAnyKeyStartTimer = true;
+            uiManager.TogglePressAnyKeyTimerLabel();
             PressAnyKeyToPlay = !PressAnyKeyToPlay;
         }   
     }
@@ -174,21 +190,29 @@ public class GameManager : MonoBehaviour
 
     private void CheckGameOver()
     {
-        if (lastPosition.z + 0.1f > playerController.transform.position.z)
+        if(playerController.transform.position.y < worldGenerator.GeneratePosition.y - 3.0f)
+        {
+            IsGameOver = !IsGameOver;
+        }
+
+        if (playerController.PlayerVelocity.z == 0.0f)
         {
             currentGameOverTimer += Time.deltaTime;
 
-            if (!IsGameOver && currentGameOverTimer > gameOverTimer)
+            OnGameOverTimerChange(currentGameOverTimer);
+
+            if (!IsGameOver && currentGameOverTimer > GameOverTimer)
             {
                 IsGameOver = !IsGameOver;
             }
         }
         else
         {
-            currentGameOverTimer = 0.0f;
-        }
+            currentGameOverTimer -= Time.deltaTime;
+            currentGameOverTimer = Mathf.Clamp(currentGameOverTimer, 0.0f, GameOverTimer);
 
-        lastPosition = playerController.transform.position;
+            OnGameOverTimerChange(currentGameOverTimer);
+        }
     }
 
     private void SpeedUp()

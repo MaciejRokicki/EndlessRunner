@@ -5,15 +5,21 @@ public class PlayerController : MonoBehaviour
     #region Singletons
     private WorldGenerator worldGenerator;
     private GameManager gameManager;
-    private CharacterController controller;
     #endregion
 
     //References
     [Header("References")]
+    private CharacterController controller;
     [SerializeField]
     private Camera playerCamera;
 
+    private Vector3 playerVelocityTmp;
     private Vector3 playerVelocity;
+    public Vector3 PlayerVelocity
+    {
+        get { return playerVelocity; }
+        private set { playerVelocity = value; }
+    }
     private bool groundedPlayer;
 
     //Player settings
@@ -44,8 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        playerVelocityTmp.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocityTmp * Time.deltaTime);
     }
 
     void Update()
@@ -70,21 +76,20 @@ public class PlayerController : MonoBehaviour
     {
         groundedPlayer = controller.isGrounded;
 
-        if (groundedPlayer && playerVelocity.y < 0.0f)
+        if (groundedPlayer && playerVelocityTmp.y < 0.0f)
         {
-            playerVelocity.y = 0.0f;
+            playerVelocityTmp.y = 0.0f;
         }
 
-        Vector3 move = transform.rotation * Vector3.forward;
-
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        Vector3 move = transform.rotation * Vector3.forward * playerSpeed;
 
         if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            playerVelocityTmp.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
 
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        playerVelocityTmp.y += gravityValue * Time.deltaTime;
+        controller.Move((move + playerVelocityTmp) * Time.deltaTime);
+        PlayerVelocity = controller.velocity;
     }
 }
