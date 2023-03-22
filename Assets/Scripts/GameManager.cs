@@ -30,6 +30,54 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float startPlayerSpeed = 8.0f;
 
+    [SerializeField]
+    private bool pressAnyKeyToPlay;
+    public bool PressAnyKeyToPlay
+    {
+        get { return pressAnyKeyToPlay; }
+        private set
+        {
+            pressAnyKeyToPlay = value;  
+
+            isPause = false;
+            uiManager.TogglePressAnyKey();
+            uiManager.ToggleGameUI();
+        }
+    }
+    [SerializeField]
+    private bool isPause;
+    public bool IsPause
+    {
+        get { return isPause; }
+        set
+        {
+            isPause = value;
+
+            if(!pressAnyKeyToPlay)
+            {
+                uiManager.ToggleGameUI();
+                uiManager.TogglePause();
+            }
+        }
+    }
+
+    [SerializeField]
+    private bool isGameOver;
+    public bool IsGameOver
+    {
+        get { return isGameOver; }
+        set
+        {
+            isGameOver = value;
+
+            if(isGameOver)
+            {
+                uiManager.ToggleGameUI();
+                uiManager.ToggleGameOver();
+            }
+        }
+    }
+
     [Header("Timers")]
     [SerializeField]
     private float gameTimer = 0.0f;
@@ -63,6 +111,10 @@ public class GameManager : MonoBehaviour
         structureManager = StructureManager.Instance;
         uiManager = UIManager.Instance;
         uiManager.SetGameManager(instance);
+
+        PressAnyKeyToPlay = true;
+        IsPause = true;
+        IsGameOver = false;
     }
 
     private void Start()
@@ -80,18 +132,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!uiManager.IsPause && !uiManager.IsGameOver)
+        if (!IsPause && !IsGameOver)
         {
             TimersHandler();
             CheckGameOver();
         }
 
-        if (uiManager.PressAnyKeyToPlay && Input.anyKeyDown)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            IsPause = !IsPause;
+        }
+
+        if (PressAnyKeyToPlay && Input.anyKeyDown)
         {
             playerController.PlayerSpeed = startPlayerSpeed;
-            uiManager.TogglePressAnyKey();
-            uiManager.ToggleGameUI();
-        }
+
+            PressAnyKeyToPlay = !PressAnyKeyToPlay;
+        }   
     }
 
     private void TimersHandler()
@@ -121,9 +178,9 @@ public class GameManager : MonoBehaviour
         {
             currentGameOverTimer += Time.deltaTime;
 
-            if (!uiManager.IsGameOver && currentGameOverTimer > gameOverTimer)
+            if (!IsGameOver && currentGameOverTimer > gameOverTimer)
             {
-                uiManager.ToggleGameOver();
+                IsGameOver = !IsGameOver;
             }
         }
         else

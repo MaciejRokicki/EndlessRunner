@@ -38,13 +38,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI gameOverDistanceLabel;
 
-    [HideInInspector]
-    public bool PressAnyKeyToPlay = true;
-    [HideInInspector]
-    public bool IsPause = true;
-    [HideInInspector]
-    public bool IsGameOver = false;
-
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -66,14 +59,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         Cursor.visible = false;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && !PressAnyKeyToPlay)
-        {
-            TogglePause();
-        }
     }
 
     private void OnGameTimeChange(float time)
@@ -98,8 +83,6 @@ public class UIManager : MonoBehaviour
     public void TogglePressAnyKey()
     {
         pressAnyKey.SetActive(!pressAnyKey.activeSelf);
-        PressAnyKeyToPlay = !PressAnyKeyToPlay;
-        IsPause = false;
     }
 
     public void ToggleGameUI()
@@ -109,17 +92,13 @@ public class UIManager : MonoBehaviour
 
     public void TogglePause()
     {
-        game.SetActive(!game.activeSelf);
         pause.SetActive(!pause.activeSelf);
-        IsPause = !IsPause;
         Cursor.visible = !Cursor.visible;
     }
 
     public void ToggleGameOver()
     {
-        gameOver.SetActive(!gameOver.activeSelf);
-        IsGameOver = !IsGameOver;
-        ToggleGameUI();
+        gameOver.SetActive(!gameOver.activeSelf); 
         Cursor.visible = !Cursor.visible;
 
         StringBuilder sb = new StringBuilder("Time played: ");
@@ -131,6 +110,12 @@ public class UIManager : MonoBehaviour
         sb.Append("Distance: ");
         sb.Append(distanceLabel.text);
         gameOverDistanceLabel.text = sb.ToString();
+    }
+
+    public void ButtonResume()
+    {
+        Cursor.visible = !Cursor.visible;
+        gameManager.IsPause = false;
     }
 
     public void ButtonRetry()

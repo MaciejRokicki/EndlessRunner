@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Singletons
     private WorldGenerator worldGenerator;
-    private UIManager uiManager;
+    private GameManager gameManager;
     private CharacterController controller;
     #endregion
 
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         worldGenerator = WorldGenerator.Instance;
-        uiManager = UIManager.Instance;
+        gameManager = GameManager.Instance;
         controller = GetComponent<CharacterController>();
     }
 
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!uiManager.IsPause && !uiManager.IsGameOver)
+        if(!gameManager.IsPause && !gameManager.IsGameOver)
         {
             RotateCharacter();
             MoveCharacter();
