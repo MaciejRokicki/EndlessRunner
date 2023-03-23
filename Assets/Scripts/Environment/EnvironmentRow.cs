@@ -19,7 +19,7 @@ public class EnvironmentRow : MonoBehaviour
     {
         if (destinationPosition != null)
         {
-            transform.position = Vector3.Lerp(transform.position, destinationPosition.Value, Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, destinationPosition.Value, gameManager.PlayerController.PlayerSpeed * Time.deltaTime);
 
             if (transform.position.z > destinationPosition.Value.z)
             {
