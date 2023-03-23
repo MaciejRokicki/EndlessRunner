@@ -146,7 +146,6 @@ public class UIManager : MonoBehaviour
 
     public void ButtonResume()
     {
-        Cursor.visible = !Cursor.visible;
         gameManager.IsPause = false;
     }
 

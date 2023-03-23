@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
             CheckGameOver();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !IsGameOver && !pressAnyKeyStartTimer)
+        if (Input.GetKeyDown(KeyCode.Escape) && !PressAnyKeyToPlay && !IsGameOver && !pressAnyKeyStartTimer)
         {
             IsPause = !IsPause;
         }
