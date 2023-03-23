@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
         set 
         { 
             playerSpeed = value;
+            playerSpeed = Mathf.Clamp(playerSpeed, 5.0f, 25.0f);
+
             worldGenerator.SetGeneratingRowTimer(playerSpeed);
         } 
     }

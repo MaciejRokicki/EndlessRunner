@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float startPlayerSpeed = 8.0f;
 
-    [SerializeField]
     private bool pressAnyKeyToPlay;
     public bool PressAnyKeyToPlay
     {
@@ -93,11 +92,19 @@ public class GameManager : MonoBehaviour
     public delegate void GameOverTimerChangeCallback(float time);
     public event GameOverTimerChangeCallback OnGameOverTimerChange;
     [SerializeField]
-    private float speedUpTimer = 15.0f;
+    private float speedUpTimer = 10.0f;
     private float currentSpeedUpTimer = 0.0f;
     [SerializeField]
-    private float changeStructureTierChanceTimer = 60.0f;
-    private float currentChangeStructureTierChanceTimer = 0.0f;
+    private float changeGameOverTimeTimer = 20.0f;
+    private float currentChangeGameOverTimeTimer = 0.0f;
+
+    [Header("Distances")]
+    [SerializeField]
+    private float changeStructureTierChanceDistance = 250.0f;
+    private float lastChangeStructureTierChanceDistance = 0.0f;
+    [SerializeField]
+    private float changeMinStructureOffsetDistance = 300.0f;
+    private float lastChangeMinStructureOffsetDistance = 0.0f;
 
     private void Awake()
     {
@@ -129,6 +136,9 @@ public class GameManager : MonoBehaviour
 
         worldGenerator.PlayerController = playerController;
         worldGenerator.SetGeneratingRowTimer(playerController.PlayerSpeed);
+
+        lastChangeStructureTierChanceDistance = worldGenerator.StartLength + changeStructureTierChanceDistance;
+        lastChangeMinStructureOffsetDistance = worldGenerator.StartLength + changeMinStructureOffsetDistance;
     }
 
     private void Update()
@@ -150,7 +160,7 @@ public class GameManager : MonoBehaviour
 
         if (!IsPause && !IsGameOver)
         {
-            TimersHandler();
+            TimersAndDistanceHandler();
             CheckGameOver();
         }
 
@@ -167,11 +177,11 @@ public class GameManager : MonoBehaviour
         }   
     }
 
-    private void TimersHandler()
+    private void TimersAndDistanceHandler()
     {
         gameTimer += Time.deltaTime;
         currentSpeedUpTimer += Time.deltaTime;
-        currentChangeStructureTierChanceTimer += Time.deltaTime;
+        currentChangeGameOverTimeTimer += Time.deltaTime;
 
         OnGameTimerChange(gameTimer);
 
@@ -181,10 +191,34 @@ public class GameManager : MonoBehaviour
             currentSpeedUpTimer = 0.0f;
         }
 
-        if (currentChangeStructureTierChanceTimer > changeStructureTierChanceTimer)
+        if (currentChangeGameOverTimeTimer > changeGameOverTimeTimer)
+        {
+            GameOverTimer -= 0.1f;
+
+            if(GameOverTimer <= 0.5f)
+            {
+                GameOverTimer = 0.5f;
+            }
+
+            currentChangeGameOverTimeTimer = 0.0f;
+        }
+
+        if(worldGenerator.Z > lastChangeStructureTierChanceDistance)
         {
             ChangeStructureTierChances();
-            currentChangeStructureTierChanceTimer = 0.0f;
+            lastChangeStructureTierChanceDistance = worldGenerator.Z + changeStructureTierChanceDistance;
+        }
+
+        if (worldGenerator.Z > lastChangeMinStructureOffsetDistance)
+        {
+            worldGenerator.MinStructureOffset -= 1;
+
+            if(worldGenerator.MinStructureOffset < 3)
+            {
+                worldGenerator.MinStructureOffset = 3;
+            }
+
+            lastChangeMinStructureOffsetDistance = worldGenerator.Z + changeMinStructureOffsetDistance;
         }
     }
 
@@ -195,11 +229,11 @@ public class GameManager : MonoBehaviour
             IsGameOver = !IsGameOver;
         }
 
-        if (playerController.PlayerVelocity.z == 0.0f)
+        if (gameTimer > 1.0f && playerController.PlayerVelocity.z < 0.5f)
         {
-            currentGameOverTimer += Time.deltaTime;
-
             OnGameOverTimerChange(currentGameOverTimer);
+
+            currentGameOverTimer += Time.deltaTime;
 
             if (!IsGameOver && currentGameOverTimer > GameOverTimer)
             {
@@ -208,10 +242,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            currentGameOverTimer -= Time.deltaTime;
-            currentGameOverTimer = Mathf.Clamp(currentGameOverTimer, 0.0f, GameOverTimer);
-
             OnGameOverTimerChange(currentGameOverTimer);
+
+            currentGameOverTimer -= Time.deltaTime;
+
+            if(currentGameOverTimer < 0.0f)
+            {
+                currentGameOverTimer = 0.0f;
+            }
         }
     }
 

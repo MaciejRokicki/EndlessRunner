@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7389362581451185322, guid: eb32148081323d243a312d36874f06de, type: 3}
   startPlayerSpeed: 8
-  Pause: 1
-  gameTimer: 0
-  gameOverTimer: 1
-  speedUpTimer: 15
-  changeStructureTierChanceTimer: 60
+  isPause: 0
+  isGameOver: 0
+  pressAnyKeyStartTimer: 0
+  pressAnyKeyTimer: 3
+  GameOverTimer: 1
+  speedUpTimer: 10
+  changeGameOverTimeTimer: 30
+  changeStructureTierChanceDistance: 250
+  changeMinStructureOffsetDistance: 300
