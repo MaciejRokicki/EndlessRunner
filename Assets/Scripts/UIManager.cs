@@ -35,11 +35,15 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject pause;
+    [SerializeField]
+    private TextMeshProUGUI pauseTimeLabel;
+    [SerializeField]
+    private TextMeshProUGUI pauseDistanceLabel;
 
     [SerializeField]
     private GameObject gameOver;
     [SerializeField]
-    private TextMeshProUGUI gameOverTimerLabel;
+    private TextMeshProUGUI gameOverTimeLabel;
     [SerializeField]
     private TextMeshProUGUI gameOverDistanceLabel;
 
@@ -126,6 +130,16 @@ public class UIManager : MonoBehaviour
     {
         pause.SetActive(!pause.activeSelf);
         Cursor.visible = !Cursor.visible;
+
+        StringBuilder sb = new StringBuilder("Time played: ");
+        sb.Append(timerLabel.text);
+        pauseTimeLabel.text = sb.ToString();
+
+        sb.Clear();
+
+        sb.Append("Distance: ");
+        sb.Append(distanceLabel.text);
+        pauseDistanceLabel.text = sb.ToString();
     }
 
     public void ToggleGameOver()
@@ -135,7 +149,7 @@ public class UIManager : MonoBehaviour
 
         StringBuilder sb = new StringBuilder("Time played: ");
         sb.Append(timerLabel.text);
-        gameOverTimerLabel.text = sb.ToString();
+        gameOverTimeLabel.text = sb.ToString();
 
         sb.Clear();
 
