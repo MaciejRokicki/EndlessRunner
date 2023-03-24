@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 1037
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 1220
     height: 600
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 12}
@@ -216,8 +216,8 @@ MonoBehaviour:
     y: 0
     width: 288
     height: 600
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -242,8 +242,8 @@ MonoBehaviour:
     y: 600
     width: 1508
     height: 387
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 14}
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 412
     height: 987
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -709,21 +709,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c47cf7ff0a7df7ff427ff7ff7a17fbffde1afbff661efbffb81efbffec20fbff8446fbffda46fbff2249fbff60e2fcffb6e2fcffeee4fcffba47fdff2afbfffffa5b000004700000ae700000f698000070990000689a00007a9a0000
+      m_ExpandedIDs: 54effdff96effdffcef1fdff9262feffd462feff0865feff2afbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: GameOverProgressBarBackground
-        m_OriginalName: GameOverProgressBarBackground
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 48126
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -795,7 +795,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 307f0000
     m_LastClickedID: 32560
-    m_ExpandedIDs: 00000000506a0000526a0000546a0000566a00007a6a000000ca9a3b
+    m_ExpandedIDs: 00000000266a0000286a00002a6a00002c6a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -823,7 +823,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000506a0000526a0000546a0000566a0000
+    m_ExpandedIDs: 00000000266a0000286a00002a6a00002c6a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -854,18 +854,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: PauseButtonContainer
-      m_OriginalName: PauseButtonContainer
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 35404
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:

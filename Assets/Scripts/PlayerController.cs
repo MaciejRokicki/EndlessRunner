@@ -42,6 +42,16 @@ public class PlayerController : MonoBehaviour
     private float gravityValue = -9.81f;
     [SerializeField]
     private float cameraSpeed = 250.0f;
+    private float playerRotY = 0.0f;
+    [SerializeField]
+    private float minPlayerRotY = -60.0f;
+    [SerializeField]
+    private float maxPlayerRotY = 60.0f;
+    private float cameraRotX = 0.0f;
+    [SerializeField]
+    private float minCameraRotX = -50.0f;
+    [SerializeField]
+    private float maxCameraRotX = 50.0f;
 
     private void Awake()
     {
@@ -67,11 +77,15 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCharacter()
     {
-        transform.Rotate(new Vector3(0.0f, Input.GetAxis("Mouse X"), 0.0f) * Time.deltaTime * cameraSpeed);
+        playerRotY += Input.GetAxis("Mouse X") * Time.deltaTime * cameraSpeed;
+        playerRotY = Mathf.Clamp(playerRotY, minPlayerRotY, maxPlayerRotY);
 
-        float cameraRotX = Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
+        transform.rotation = Quaternion.Euler(0.0f, playerRotY, 0.0f);
 
-        playerCamera.transform.Rotate(-cameraRotX, 0.0f, 0.0f);
+        cameraRotX -= Input.GetAxis("Mouse Y") * Time.deltaTime * cameraSpeed;
+        cameraRotX = Mathf.Clamp(cameraRotX, minCameraRotX, maxCameraRotX);
+
+        playerCamera.transform.rotation = Quaternion.Euler(cameraRotX, playerRotY, 0.0f);
     }
 
     private void MoveCharacter()
