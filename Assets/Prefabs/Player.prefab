@@ -113,8 +113,8 @@ MonoBehaviour:
   playerSpeed: 0
   jumpHeight: 1.15
   cameraSpeed: 250
-  minPlayerRotY: -60
-  maxPlayerRotY: 60
+  minPlayerRotY: -80
+  maxPlayerRotY: 80
   minCameraRotX: -50
   maxCameraRotX: 50
 --- !u!1 &7389362583158667951

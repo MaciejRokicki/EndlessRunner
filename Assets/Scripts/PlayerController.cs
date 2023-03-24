@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour
     private float cameraSpeed = 250.0f;
     private float playerRotY = 0.0f;
     [SerializeField]
-    private float minPlayerRotY = -60.0f;
+    private float minPlayerRotY = -80.0f;
     [SerializeField]
-    private float maxPlayerRotY = 60.0f;
+    private float maxPlayerRotY = 80.0f;
     private float cameraRotX = 0.0f;
     [SerializeField]
     private float minCameraRotX = -50.0f;

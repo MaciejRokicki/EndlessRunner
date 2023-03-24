@@ -2,6 +2,8 @@ using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
@@ -18,6 +20,9 @@ public class UIManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField]
+    private Volume volume;
+    private Vignette vignette; 
+    [SerializeField]
     private GameObject pressAnyKey;
     [SerializeField]
     private TextMeshProUGUI pressAnyKeyTimerLabel;
@@ -29,9 +34,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI distanceLabel;
     private RectTransform distanceLabelBackground;
-    private RectTransform gameOverTimerProgressBar;
-    [SerializeField]
-    private RectTransform gameOverTimerProgressBarFill;
 
     [SerializeField]
     private GameObject pause;
@@ -62,8 +64,9 @@ public class UIManager : MonoBehaviour
 
         worldGenerator.OnDistanceChange += OnDistanceChange;
 
+        volume.profile.TryGet(out vignette);
+
         distanceLabelBackground = distanceLabel.rectTransform.parent as RectTransform;
-        gameOverTimerProgressBar = gameOverTimerProgressBarFill.parent as RectTransform;
     }
 
     private void Start()
@@ -98,17 +101,9 @@ public class UIManager : MonoBehaviour
 
     private void OnGameOverTimerChange(float time)
     {
-        if(time == 0.0f)
-        {
-            gameOverTimerProgressBar.gameObject.SetActive(false);
-        }
-        else
-        {
-            gameOverTimerProgressBar.gameObject.SetActive(true);
-            gameOverTimerProgressBarFill.offsetMax = new Vector2(
-                -((gameManager.GameOverTimer - time) / gameManager.GameOverTimer * gameOverTimerProgressBar.sizeDelta.x),
-                gameOverTimerProgressBarFill.offsetMax.y
-            );
+        if(time > 0.0f)
+        { 
+            vignette.intensity.value = time / gameManager.GameOverTimer;
         }
     }
 
