@@ -1,6 +1,7 @@
 # EndlessRunner
 
 ### Windows build
+https://github.com/MaciejRokicki/EndlessRunner/releases/download/v1.0.0/EndlessRunner.zip
 
 ### Screenshots
 ![](/../master/Media/1.png)
